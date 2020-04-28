@@ -51,6 +51,12 @@ $(function() {
           min: 'Your birth year is required'
         }
           
+      },
+
+      submitHandler: function(form) {
+        //form.submit();
+        $("#SignInPage").hide();
+        $("#Settings").show();
       }
     });
   });

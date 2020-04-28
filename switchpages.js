@@ -12,3 +12,11 @@ function gotogame(){
 	$("#WelcomeScreen").hide();
 	$("#gamePage").show();
 }
+function clickToSettings(){
+	$("#LogInPage").hide();
+	$("#Settings").show();
+}
+
+
+
+

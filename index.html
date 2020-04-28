@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="./app.js"></script>
 		<script type="text/javascript" src="./form.js"></script>
 		<script type="text/javascript" src="./switchpages.js"></script>
+		<script type="text/javascript" src="./settings.js"></script>
 
 	</head>
 
@@ -71,18 +72,18 @@
 				<br>
 				<select name="month">
 					<option value="0"> - Month - </option>
-					<option value="January">January</option>
-					<option value="Febuary">Febuary</option>
-					<option value="March">March</option>
-					<option value="April">April</option>
-					<option value="May">May</option>
-					<option value="June">June</option>
-					<option value="July">July</option>
-					<option value="August">August</option>
-					<option value="September">September</option>
-					<option value="October">October</option>
-					<option value="November">November</option>
-					<option value="December">December</option>
+					<option value="1">January</option>
+					<option value="2">Febuary</option>
+					<option value="3">March</option>
+					<option value="4">April</option>
+					<option value="5">May</option>
+					<option value="6">June</option>
+					<option value="7">July</option>
+					<option value="8">August</option>
+					<option value="9">September</option>
+					<option value="10">October</option>
+					<option value="11">November</option>
+					<option value="12">December</option>
 				</select>
 				<br>
 				<select name="year">
@@ -152,8 +153,53 @@
 
 		<div id="LogInPage" style="display: none;" >
 			<h1>log in page</h1>
+			<input id="tosettings" type="button" value="to settings" onclick="clickToSettings()"/>
 		</div>
 
+		<div id="Settings" style="display: none;" >
+			<h1>Game Settings</h1>
+			<h2>Key controll settings</h2>
+			<input type="button" name="rightkey" id="rightkey" value="choose right key" onclick="rightButtonclick()"/>
+			<span id="errorR" style="display: none;">red! all keys should be different</span>
+			<br>
+			Selected: <span id="rk">none</span>
+			<br>
+			<input type="button" name="leftkey" id="leftkey" value="choose left key" onclick="leftButtonclick()"/>
+			<span id="errorL" style="display: none;">red! all keys should be different</span>
+			<br>
+			Selected: <span id="lk">none</span>
+			<br>
+			<input type="button" name="upkey" id="upkey" value="choose up key" onclick="upButtonclick()"/>
+			<span id="errorU" style="display: none;">red! all keys should be different</span>
+			<br>
+			Selected: <span id="uk">none</span>
+			<br>
+			<input type="button" name="downkey" id="downkey" value="choose down key" onclick="downButtonclick()"/>
+			<span id="errorD" style="display: none;">red! all keys should be different</span>
+			<br>
+			Selected: <span id="dk">none</span>
+			<br>
+			<br>
+			<br>
+			<form id="setting-form" action="" name="registration">
+				<label for="numofBalls">Choose Number of Balls</label>
+				<input type="numofBalls" name="numofBalls" id="numofBalls"/>
+				<br>
+				<br>
+				<p> Choose ball colors</p>
+				<input type="color" id="5point" name="5point" value="#FFFF00">
+				<label for="5point">5 point balls</label>
+				<br>
+				<input type="color" id="10point" name="10point" value="#FF0000">
+				<label for="10point">10 point balls</label>
+				<br>
+				<input type="color" id="15point" name="15point" value="#0000FF">
+				<label for="15point">15 point balls</label>
+				<label for="gamelength">Game length</label>
+				<input type="time" name="gamelength" id="gamelength"/>
+				<br>
+			</form>
+		</div>
 		<div id="gamePage" style="display: none;" >
 			<div id="score">
 			<label for="lblScore">SCORE:</label>
