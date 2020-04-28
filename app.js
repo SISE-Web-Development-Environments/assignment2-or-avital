@@ -7,7 +7,7 @@ var start_time;
 var time_elapsed;
 var interval;
 var maxTimeForGame =100;// get from user - max time for thr game
-const numOfFoffInBoard=50; //get from user
+var numOfFoffInBoard=50; //get from user
 var right;
 var color5point;
 var color10point;
