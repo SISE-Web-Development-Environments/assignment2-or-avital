@@ -17,6 +17,7 @@ var lastMoveCellG1;
 var color5point;
 var color10point;
 var color15point;
+var temp;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
