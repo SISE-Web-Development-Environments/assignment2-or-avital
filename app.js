@@ -12,10 +12,11 @@ var rightKey;
 var leftKey;
 var upKey;
 var downKey;
+var numofGhost=1; // ? get real name -OR
+var lastMoveCellG1;
 var color5point;
 var color10point;
 var color15point;
-var numofGhost;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
@@ -26,6 +27,9 @@ var face=new Object(); // fce of pacman move with direction
 face.y=1.85;
 face.x=0.15;
 
+var ghost=new Object();
+ghost.x;
+ghost.y;
 
 
 function Start() { // setup -first drow 
@@ -41,14 +45,16 @@ function Start() { // setup -first drow
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 		for (var j = 0; j < 10; j++) {
 			if (
-				(i == 0 && j == 0) || (i == 9 && j == 0) || (i == 8 && j == 9) ||(i == 3 && j == 3) ||(i == 3 && j == 7) ||
-				(i == 0 && j == 1) || (i == 9 && j == 1) || (i == 9 && j == 8) ||(i == 6 && j == 5) ||(i == 3 && j == 6) ||
+				(i == 5 && j == 0) || (i == 9 && j == 0) || (i == 8 && j == 9) ||(i == 3 && j == 3) ||(i == 3 && j == 7) ||
+				(i == 6 && j == 1) || (i == 9 && j == 1) || (i == 9 && j == 8) ||(i == 6 && j == 5) ||(i == 3 && j == 6) ||
 				(i == 1 && j == 0) || (i == 8 && j == 0) || (i == 3 && j == 2) ||(i == 6 && j == 6) ||(i == 2 && j == 6) ||
 				(i == 0 && j == 9) || (i == 1 && j == 9) || (i == 2 && j == 2) ||(i == 7 && j == 5) ||(i == 6 && j == 2) ||
 				(i == 0 && j == 8) || (i == 9 && j == 9) || (i == 2 && j == 3) ||(i == 7 && j == 6) ||(i == 7 && j == 2)
 			) {
 				board[i][j] = 4; // obstical wall
 			} else { 
+
+				//check place of ghost - (i == 0 && j == 0)!!!!!!!
 				var randomNum = Math.random(); 
 				if (randomNum <= (1.0 * food_remain) / cnt) { // if buger then x- we will drow food
 					food_remain--;
@@ -80,6 +86,8 @@ function Start() { // setup -first drow
 		board[emptyCell[0]][emptyCell[1]] = 1; //food
 		food_remain--;
 	}
+	
+	  
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -96,10 +104,19 @@ function Start() { // setup -first drow
 		false
 	);
 	   
+	lastMoveCellG1=board[0][0];
+	putGhostsOnBord(); //paint ghosts
+	//ghost.x=0;
+	//ghost.y=0;
 	
-	interval = setInterval(UpdatePosition, 250); // get from user
+	interval = setInterval(intervalFancs, 120); // get from user
+	//interval = setInterval(intervalFancs, 20000); 
 }
 
+function intervalFancs(){
+	UpdatePosition();
+	UpdatePositionGhost();
+}
 
 function findRandomEmptyCell(board) {
 	var i = Math.floor(Math.random() * 9 + 1);
@@ -109,6 +126,27 @@ function findRandomEmptyCell(board) {
 		j = Math.floor(Math.random() * 9 + 1);
 	}
 	return [i, j];
+}
+
+function putGhostsOnBord(){
+	if(numofGhost==1){
+		board[0][0]= 3;
+		ghost.x=0;
+		ghost.y=0;
+
+	}else if(numofGhost ==2){
+		board[0][0]= 3;
+		board[0][9]= 3;
+	}else if(numofGhost ==3){
+		board[0][0]= 3;
+		board[0][9]= 3;
+		board[9][0]= 3;
+	}else{ // numOfGhots ==4
+		board[0][0]= 3;
+		board[0][9]= 3;
+		board[9][0]= 3;
+		board[9][9]= 3;
+	}
 }
 
 function GetKeyPressed() {
@@ -145,16 +183,9 @@ function Draw() {
 				context.arc(center.x + 11, center.y - 15, 5, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
-			// }else if (board[i][j] == 21) { //pacmanUp
-			// 	context.beginPath();
-			// 	context.arc(center.x, center.y, 30, - 0.7,  -0.6*Math.PI); // half circle
-			// 	context.lineTo(center.x, center.y);
-			// 	context.fillStyle = pac_color; //color
-			// 	context.fill();
-			// 	context.beginPath();
-			// 	context.arc(center.x-15, center.y - 15, 5, 0, 2 * Math.PI); // circle
-			// 	context.fillStyle = "black"; //color
-			// 	context.fill();
+			}else if (board[i][j] == 3) { //ghost
+				 var img=document.getElementById("ghost");
+				 context.drawImage(img, ghost.x, ghost.y,60,60);
 			} else if (board[i][j] == 11) { //if is food of 5 points
 				context.beginPath();
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
@@ -180,10 +211,47 @@ function Draw() {
 	}
 }
 
+function manhetenDis(){
+	return 2; // calc witch durction is beter - up down left right
+	//if up is the best way -> return 1 , down->rturn 2
+	// 		left->3 , right->4
+}
+
+function UpdatePositionGhost() {
+	board[ghost.x][ghost.y] = lastMoveCellG1; // put last object: lastMoveCellG1
+	var ghostMove=manhetenDis();
+	if (ghostMove == 1) { // up 
+		if (ghost.x > 0 && board[shape.i][shape.j - 1] != 4) {
+			lastMoveCellG1=board[ghost.x][ghost.y];
+			ghost.x--;
+		}
+	}
+	if (ghostMove == 2) { // down R
+		if (ghost.x < 9 && board[ghost.x][ghost.y + 1] != 4) {
+			lastMoveCellG1=board[ghost.x][ghost.y];
+			ghost.x++;
+		}
+	}
+	if (ghostMove == 3) { //left
+		if (ghost.x > 0 && board[ghost.x - 1][ghost.y] != 4) {
+			lastMoveCellG1=board[ghost.x][ghost.y];
+			ghost.x--;
+		}
+	}
+	if (ghostMove == 4) {//right
+		if (ghost.x < 9 && board[ghost.x + 1][ghost.y] != 4) {
+			lastMoveCellG1=board[ghost.x][ghost.y]; 
+			ghost.x++;
+		}
+	}
+	board[ghost.x][ghost.y] = 3; 
+
+}
 
 function UpdatePosition() { 
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed(); // last move of user
+	
 	var faceDirection=24;
 	if (x == 1) { // up 
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
@@ -217,6 +285,7 @@ function UpdatePosition() {
 			shape.i++;
 		}
 	}
+	
 	if (board[shape.i][shape.j] == 11) { // chek the type of food! update score
 		score++;
 	}
