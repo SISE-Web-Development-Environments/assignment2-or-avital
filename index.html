@@ -183,9 +183,12 @@
 			<br>
 			<form id="setting-form" action="" name="registration">
 				<label for="numofBalls">Choose Number of Balls</label>
-				<input type="numofBalls" name="numofBalls" id="numofBalls"/>
-				<br>
-				<br>
+				<input type="number" name="numofBalls" id="numofBalls">
+				<br><br>
+				<label for="gamelength">Game length in Seconds<label>
+				<input type="number" name="gamelength" id="gamelength" value="60">
+			
+				<br><br>
 				<p> Choose ball colors</p>
 				<input type="color" id="5point" name="5point" value="#FFFF00">
 				<label for="5point">5 point balls</label>
@@ -195,9 +198,8 @@
 				<br>
 				<input type="color" id="15point" name="15point" value="#0000FF">
 				<label for="15point">15 point balls</label>
-				<label for="gamelength">Game length</label>
-				<input type="time" name="gamelength" id="gamelength"/>
 				<br>
+				<input type="button" name="randomSettings" id="randomSettings" value="Random Settings" onclick="differentName()"/>
 			</form>
 		</div>
 		<div id="gamePage" style="display: none;" >

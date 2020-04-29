@@ -20,9 +20,8 @@ function rightKeyChoosen(e) {
   if(choosen==leftDirection || choosen== upDirection|| choosen== downDirection){
       document.getElementById("errorR").style.display="block";
   }else{
-      rightDirection=choosen;
+      rightDirection=e.keyCode;
       document.getElementById("rk").innerHTML = rightDirection;
-      right=rightDirection;
   }
   document.removeEventListener("keydown", rightKeyChoosen);
   document.getElementById("rightkey").style.background="none";
@@ -42,7 +41,7 @@ function leftKeyChoosen(e) {
   if(choosen==rightDirection || choosen== upDirection|| choosen== downDirection){
     document.getElementById("errorL").style.display="block";
   }else{
-      leftDirection=choosen;
+      leftDirection=e.keyCode;
       document.getElementById("lk").innerHTML = leftDirection;
   //left=left;
   }
@@ -64,7 +63,7 @@ function upKeyChoosen(e) {
   if(choosen==rightDirection || choosen== leftDirection|| choosen== downDirection){
     document.getElementById("errorU").style.display="block";
   }else{
-      upDirection=choosen;
+      upDirection=e.keyCode;
       document.getElementById("uk").innerHTML = upDirection;
     //left=left;
   }
@@ -87,7 +86,7 @@ function downKeyChoosen(e) {
   if(choosen==rightDirection || choosen== leftDirection|| choosen== upDirection){
     document.getElementById("errorD").style.display="block";
   }else{
-      downDirection=choosen;
+      downDirection=e.keyCode;
       document.getElementById("dk").innerHTML = downDirection;
   //left=left;
   }
@@ -95,17 +94,76 @@ function downKeyChoosen(e) {
   document.getElementById("downkey").style.background="none";
 }
 
+function differentName(){
+         
+        upDirection=38;
+        downDirection=40;
+        rightDirection=39;
+        leftDirection=37;
+        
+        document.getElementById("uk").innerHTML = upDirection;
+        document.getElementById("dk").innerHTML = downDirection;
+        document.getElementById("rk").innerHTML = rightDirection;
+        document.getElementById("lk").innerHTML = leftDirection;
+
+        document.getElementById("5point").value= getRandomColor();
+        document.getElementById("10point").value= getRandomColor();
+        document.getElementById("15point").value= getRandomColor();
+
+        color5point=  document.getElementById("5point").value;
+        color10point= document.getElementById("10point").value;
+        color15point= document.getElementById("15point").value;
+
+
+        numOfFoffInBoard= 50 +Math.floor(Math.random() * Math.floor(40));
+        document.getElementById("numofBalls").value=numOfFoffInBoard;
+        maxTimeForGame= 60+Math.floor(Math.random() * Math.floor(200));
+        document.getElementById("gamelength").value=maxTimeForGame;
+    
+    }
+        
+       
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+
+
+
 
 $(function() {
-    $("#signin-form").validate({
+    $("#setting-form").validate({
         rules: {
-            
-          },
-        
-          messages: {
-           
+            numofBalls:{
+                min: 50,
+                max: 90,
+                required: true,
+                number: true
+            },
+            gamelength:{
+                min: 60,
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            numofBalls:{
+                min: "the minimal number of balls is 50",
+                max: "the maximum number of balls is 90",
+            },
+            gamelength:{
+                min: "the minimal game length is 60 seconds"
+            }
               
-          },
+        }
+    });
+ });
     
-        });
-      });
+
+
+      
