@@ -4,15 +4,30 @@
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 		<script type="text/javascript" src="./app.js"></script>
 		<script type="text/javascript" src="./form.js"></script>
 		<script type="text/javascript" src="./switchpages.js"></script>
 		<script type="text/javascript" src="./settings.js"></script>
-
+		<link rel="stylesheet" type="text/css" href="./style.css">
 	</head>
 
 	<body>
-
+		<header>
+			<div id="menu">
+			  <nav>
+				<ul>
+				  <li><a href="#WelcomeScreen" onclick="menuToWelcome()">Welcome</a></li>
+				  <li><a href="#SignInPage" onclick="menuToSignIn()">Sign In</a></li>
+				  <li><a href="#LogInPage" onclick="menuToLogIn()">Log In</a></li>
+				  <li><a href="#AboutPage" onclick="menuToAbout()">About</a></li>
+				</ul>
+			  </nav>
+		
+		
+			</div>
+		  </header>
 		<div id="WelcomeScreen" >
 			<h1>Welcome page !</h1>
 			<input id="SignIn" type="button" value="Sign In" onclick="clickSignIn()"/>
@@ -149,20 +164,46 @@
 				<button type="submit">Register</button>
 			
 			  </form>
+			  <div id="signInOK" class="modal">
+				<p>You sucssesfuly signed in!</p>
+				<input type="button" name="gotoSettingsFromSignIn" id="gotoSettingsFromSignIn" value="Go To Settings!" onclick="goToSettingsFromSignIn()"/>
+			</div>
+			<div id="signInNotOK" class="modal">
+				<p>There is already a user with the same username, Please try again</p>
+			</div>
 		</div>
 
 		<div id="LogInPage" style="display: none;" >
 			<h1>log in page</h1>
-			<input id="tosettings" type="button" value="to settings" onclick="clickToSettings()"/>
+			<input id="tosettings" type="button" value="temp button to settings" onclick="clickToSettings()"/>
+
+			<br>
+			<br>
+			<label for="usernameLogIn">UserName</label>
+			<input type="usernameLogIn" name="usernameLogIn" id="usernameLogIn"/>
+			<br>
+			<label for="passwordLogIn">Password</label>
+			<input type="passwordLogIn" name="passwordLogIn" id="passwordLogIn"/>
+
+			<input id="loginButton" type="button" value="Log In" onclick="checkUser()"/>
+		
+			<div id="logInOK" class="modal">
+				<p>You sucssesfuly logged in!</p>
+				<input type="button" name="gotoSettingsFromLogin" id="gotoSettingsFromLogin" value="Go To Settings!" onclick="clickToSettings()"/>
+			</div>
+			<div id="logInNotOK" class="modal">
+				<p>Username or password not exists, Please try again</p>
+			</div>
 		</div>
 
 		<div id="Settings" style="display: none;" >
 			<h1>Game Settings</h1>
+			<form id="setting-form"  name="registration">
 			<h2>Key controll settings</h2>
 			<input type="button" name="rightkey" id="rightkey" value="choose right key" onclick="rightButtonclick()"/>
 			<span id="errorR" style="display: none;">red! all keys should be different</span>
-			<br>
-			Selected: <span id="rk">none</span>
+			
+			<br>Selected: <span id="rk" name="rk" >none</span>
 			<br>
 			<input type="button" name="leftkey" id="leftkey" value="choose left key" onclick="leftButtonclick()"/>
 			<span id="errorL" style="display: none;">red! all keys should be different</span>
@@ -181,13 +222,21 @@
 			<br>
 			<br>
 			<br>
-			<form id="setting-form" action="" name="registration">
-				<label for="numofBalls">Choose Number of Balls</label>
-				<input type="number" name="numofBalls" id="numofBalls">
+
+			<label for="numofBalls">Choose Number of Balls</label>
+				<input type="number" name="numofBalls" id="numofBalls" value="50">
 				<br><br>
 				<label for="gamelength">Game length in Seconds<label>
 				<input type="number" name="gamelength" id="gamelength" value="60">
-			
+				<br>
+				<label for="numofGhosts">Number of Ghosts</label>
+				<select name="numofGhosts" id="numofGhosts">
+					<option value="0">--Select--</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+				</select>
 				<br><br>
 				<p> Choose ball colors</p>
 				<input type="color" id="5point" name="5point" value="#FFFF00">
@@ -200,7 +249,22 @@
 				<label for="15point">15 point balls</label>
 				<br>
 				<input type="button" name="randomSettings" id="randomSettings" value="Random Settings" onclick="differentName()"/>
+				<input type="submit" name="submitSettings" id="submitSettings" value="Submit" />
 			</form>
+			<div id="errorSettings" class="modal">
+				<p>error!!!</p>
+				<input type="button" name="closeError" id="closeError" value="Close" onclick="closeModal()"/>
+			</div>
+			<div id="gotogame" class="modal">
+				<p>great!! lets start playing</p>
+				<input type="button" name="gotogame" id="gotogame" value="Lets Start!" onclick="StartGame()"/>
+			</div>
+		
+	 
+		</div>
+		<div id="AboutPage" class="modal">
+			<p>Bla bla bla</p>
+			<input type="button" name="closeAbout" id="closeAbout" value="Close" onclick="closeModal()"/>
 		</div>
 		<div id="gamePage" style="display: none;" >
 			<div id="score">

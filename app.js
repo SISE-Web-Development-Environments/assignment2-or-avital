@@ -8,11 +8,14 @@ var time_elapsed;
 var interval;
 var maxTimeForGame =100;// get from user - max time for thr game
 var numOfFoffInBoard=50; //get from user
-var right;
+var rightKey;
+var leftKey;
+var upKey;
+var downKey;
 var color5point;
 var color10point;
 var color15point;
-var numofGoast;
+var numofGhost;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");

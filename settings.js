@@ -1,8 +1,8 @@
 
-var rightDirection="";
-var leftDirection="";
-var upDirection="";
-var downDirection="";
+var rightDirection;
+var leftDirection;
+var upDirection;
+var downDirection;
 
 
 
@@ -15,13 +15,13 @@ function rightButtonclick(){
  }
 
 function rightKeyChoosen(e) {
-    let choosen= e.key;
+    let choosen= e.keyCode;
   
   if(choosen==leftDirection || choosen== upDirection|| choosen== downDirection){
       document.getElementById("errorR").style.display="block";
   }else{
-      rightDirection=e.keyCode;
-      document.getElementById("rk").innerHTML = rightDirection;
+      rightDirection=choosen;
+      document.getElementById("rk").innerHTML = e.key ;
   }
   document.removeEventListener("keydown", rightKeyChoosen);
   document.getElementById("rightkey").style.background="none";
@@ -36,14 +36,13 @@ function leftButtonclick(){
  }
 
 function leftKeyChoosen(e) {
-    let choosen= e.key;
+    let choosen= e.keyCode;
   
   if(choosen==rightDirection || choosen== upDirection|| choosen== downDirection){
     document.getElementById("errorL").style.display="block";
   }else{
-      leftDirection=e.keyCode;
-      document.getElementById("lk").innerHTML = leftDirection;
-  //left=left;
+      leftDirection=choosen;
+      document.getElementById("lk").innerHTML = e.key;
   }
   document.removeEventListener("keydown", leftKeyChoosen);
   document.getElementById("leftkey").style.background="none";
@@ -58,16 +57,13 @@ function upButtonclick(){
  }
 
 function upKeyChoosen(e) {
-    let choosen= e.key;
-  
+    let choosen= e.keyCode;
   if(choosen==rightDirection || choosen== leftDirection|| choosen== downDirection){
     document.getElementById("errorU").style.display="block";
   }else{
-      upDirection=e.keyCode;
-      document.getElementById("uk").innerHTML = upDirection;
-    //left=left;
+      upDirection=choosen;
+      document.getElementById("uk").innerHTML = e.key;
   }
-  
   document.removeEventListener("keydown", upKeyChoosen);
   document.getElementById("upkey").style.background="none";
 }
@@ -81,14 +77,13 @@ function downButtonclick(){
  }
 
 function downKeyChoosen(e) {
-    let choosen= e.key;
+    let choosen= e.keyCode;
   
   if(choosen==rightDirection || choosen== leftDirection|| choosen== upDirection){
     document.getElementById("errorD").style.display="block";
   }else{
-      downDirection=e.keyCode;
-      document.getElementById("dk").innerHTML = downDirection;
-  //left=left;
+      downDirection=choosen;
+      document.getElementById("dk").innerHTML = e.key;
   }
   document.removeEventListener("keydown", downKeyChoosen);
   document.getElementById("downkey").style.background="none";
@@ -101,26 +96,30 @@ function differentName(){
         rightDirection=39;
         leftDirection=37;
         
-        document.getElementById("uk").innerHTML = upDirection;
-        document.getElementById("dk").innerHTML = downDirection;
-        document.getElementById("rk").innerHTML = rightDirection;
-        document.getElementById("lk").innerHTML = leftDirection;
+        document.getElementById("uk").innerHTML = "ArrowUp" ;
+        document.getElementById("dk").innerHTML = "ArrowDown";
+        document.getElementById("rk").innerHTML = "ArrowRight";
+        document.getElementById("lk").innerHTML = "ArrowLeft";
 
         document.getElementById("5point").value= getRandomColor();
         document.getElementById("10point").value= getRandomColor();
+        while(document.getElementById("5point").value==document.getElementById("10point").value){
+            document.getElementById("10point").value= getRandomColor();
+        }
         document.getElementById("15point").value= getRandomColor();
+        while(document.getElementById("5point").value==document.getElementById("15point").value){
+            document.getElementById("15point").value= getRandomColor();
+        }
+        while(document.getElementById("10point").value==document.getElementById("15point").value){
+            document.getElementById("15point").value= getRandomColor();
+        }
 
-        color5point=  document.getElementById("5point").value;
-        color10point= document.getElementById("10point").value;
-        color15point= document.getElementById("15point").value;
-
-
-        numOfFoffInBoard= 50 +Math.floor(Math.random() * Math.floor(40));
-        document.getElementById("numofBalls").value=numOfFoffInBoard;
-        maxTimeForGame= 60+Math.floor(Math.random() * Math.floor(200));
-        document.getElementById("gamelength").value=maxTimeForGame;
-    
-    }
+        document.getElementById("numofBalls").value=50 +Math.floor(Math.random() * Math.floor(40));
+        document.getElementById("gamelength").value=60+Math.floor(Math.random() * Math.floor(200));
+        var index=1 +Math.floor(Math.random() * Math.floor(4));
+       
+        document.getElementById("numofGhosts").selectedIndex = index;
+}
         
        
       function getRandomColor() {
@@ -149,6 +148,9 @@ $(function() {
                 min: 60,
                 required: true,
                 number: true
+            },
+            numofGhosts:{
+                min:1
             }
         },
         messages: {
@@ -158,12 +160,45 @@ $(function() {
             },
             gamelength:{
                 min: "the minimal game length is 60 seconds"
+            },
+            numofGhosts:{
+                min: "please select number of ghosts in game"
+            } 
+        },
+        submitHandler: function(form) {
+            if(document.getElementById("dk").innerHTML == "none"|| document.getElementById("uk").innerHTML == "none"){
+                $("#errorSettings").modal();
+            }else if(document.getElementById("rk").innerHTML == "none"|| document.getElementById("lk").innerHTML == "none"){
+                $("#errorSettings").modal();
+            }else{
+                //update key controllers
+                rightKey=rightDirection;
+                leftKey=leftDirection;
+                upKey=upDirection;
+                downKey=downDirection;
+                //update ball number
+                numOfFoffInBoard= parseInt(document.getElementById("numofBalls").value);
+                //update game length
+                maxTimeForGame=parseInt(document.getElementById("gamelength").value);
+                //monsters
+                var e = document.getElementById("numofGhosts");
+                numofGhost=parseInt( e.options[e.selectedIndex].value);
+                
+                //colors
+                color5point=  document.getElementById("5point").value;
+                color10point= document.getElementById("10point").value;
+                color15point= document.getElementById("15point").value;
+
+                $("#gotogame").modal({
+                    escapeClose: false,
+                    clickClose: false,
+                    showClose: false
+                });
             }
-              
-        }
+            
+          }
     });
  });
-    
 
 
       

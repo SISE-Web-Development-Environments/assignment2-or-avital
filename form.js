@@ -1,3 +1,5 @@
+var userDB = { p: "p" };
+
 $.validator.addMethod("legal", function(value, element) {
   return /[a-z].*[0-9]|[0-9].*[a-z]/i.test(value);
  }, "Your password must contain at least 1 letter and 1 number");
@@ -54,9 +56,40 @@ $(function() {
       },
 
       submitHandler: function(form) {
-        //form.submit();
-        $("#SignInPage").hide();
-        $("#Settings").show();
+        var username = document.getElementById("username").value;
+		    if (userDB[username] == undefined) {
+			  var password = document.getElementById("password").value;
+        $("#signInOK").modal({
+          escapeClose: false,
+          clickClose: false,
+          showClose: false
+        });
+	
+       
+		} else {
+			$("#signInNotOK").modal();
+		}
+        
       }
     });
   });
+
+
+
+  function checkUser(){
+    var username = document.getElementById("usernameLogIn").value;
+    var password = document.getElementById("passwordLogIn").value;
+    if(userDB[username]==password){
+      //set current user name????
+      $("#logInOK").modal({
+        escapeClose: false,
+        clickClose: false,
+        showClose: false
+      });
+
+    }else {
+      $("#logInNotOK").modal();
+	  }
+  }
+  
+	
