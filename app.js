@@ -12,7 +12,7 @@ var rightKey;
 var leftKey;
 var upKey;
 var downKey;
-var numofGhost=1; // ? get real name -OR
+var numofGhost=1; 
 var lastMoveCellG1;
 var color5point;
 var color10point;
