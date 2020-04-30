@@ -18,6 +18,7 @@ var color5point="red";
 var color10point="yellow";
 var color15point="blue";
 var startgame=false;
+var temp;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
