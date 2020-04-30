@@ -19,6 +19,7 @@ var color10point="yellow";
 var color15point="blue";
 var startgame=false;
 var temp;
+var ghostArray = [];
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
@@ -130,27 +131,34 @@ function findRandomEmptyCell(board) {
 }
 
 function putGhostsOnBord(){
-	if(numofGhost==1){
-		lastMoveCellG1=board[0][0];
-		board[5][5]= 3;
-		ghost.x=5;
-		ghost.y=5;
-
-	}else if(numofGhost ==2){
-		board[0][0]= 3;
-		ghost.x=0;
-		ghost.y=0;
-		board[0][9]= 3;
-	}else if(numofGhost ==3){
-		board[0][0]= 3;
-		board[0][9]= 3;
-		board[9][0]= 3;
-	}else{ // numOfGhots ==4
-		board[0][0]= 3;
-		board[0][9]= 3;
-		board[9][0]= 3;
-		board[9][9]= 3;
+	for(var v=0;v<numofGhost;v++){
+		ghostArray[v]=new Object();
+		if(v==0){
+			board[0][0]= 3;
+			//lastMoveCellG1=board[0][0]; 
+			//ghostArray[v].lastItem=board[0][0];
+			ghostArray[v].x=0;
+			ghostArray[v].y=0;
+		}else if(v==1){
+			board[0][9]=3;
+			//ghostArray[v].lastItem=board[0][9];
+			ghostArray[v].x=0;
+			ghostArray[v].y=9;
+		}
+		else if(v==2){
+			board[9][0]=3;
+			//ghostArray[v].lastItem=board[9][0];
+			ghostArray[v].x=9;
+			ghostArray[v].y=0;
+		}
+		else if(v==3){
+			board[9][9]=3;
+			//ghostArray[v].lastItem=board[9][9];
+			ghostArray[v].x=9;
+			ghostArray[v].y=9;
+		}
 	}
+	
 }
 
 function GetKeyPressed() {
