@@ -11,6 +11,8 @@ function clickLogIn(){
 function gotogame(){
 	$("#WelcomeScreen").hide();
 	$("#gamePage").show();
+	startgame=true;
+	Start();
 }
 function clickToSettings(){
 	$("#LogInPage").hide();
@@ -63,6 +65,8 @@ function StartGame(){
 	$("#gamePage").show();
 	$("#Settings").hide();
 	$.modal.close();
+	startgame=true;
+	Start();
 }
 
 

@@ -8,19 +8,19 @@ var time_elapsed;
 var interval;
 var maxTimeForGame =100;// get from user - max time for thr game
 var numOfFoffInBoard=50; //get from user
-var rightKey;
-var leftKey;
-var upKey;
-var downKey;
+var rightKey=39;
+var leftKey=37;
+var upKey=38;
+var downKey=40;
 var numofGhost=1; // ? get real name -OR
 var lastMoveCellG1;
-var color5point;
-var color10point;
-var color15point;
+var color5point="red";
+var color10point="yellow";
+var color15point="blue";
+var startgame=false;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
-	Start();
 });
 
 var face=new Object(); // fce of pacman move with direction
@@ -33,6 +33,7 @@ ghost.y;
 
 
 function Start() { // setup -first drow 
+	if(startgame){
 	board = new Array();
 	score = 0;
 	pac_color = "yellow";
@@ -111,6 +112,8 @@ function Start() { // setup -first drow
 	
 	interval = setInterval(intervalFancs, 120); // get from user
 	//interval = setInterval(intervalFancs, 20000); 
+	}
+	
 }
 
 function intervalFancs(){
@@ -150,16 +153,16 @@ function putGhostsOnBord(){
 }
 
 function GetKeyPressed() {
-	if (keysDown[38]) { // up ---------> put key the user chose
+	if (keysDown[upKey]) { // up ---------> put key the user chose
 		return 1;
 	}
-	if (keysDown[40]) { // down ---------> put key the user chose
+	if (keysDown[downKey]) { // down ---------> put key the user chose
 		return 2;
 	}
-	if (keysDown[37]) { // left ---------> put key the user chose
+	if (keysDown[leftKey]) { // left ---------> put key the user chose
 		return 3;
 	}
-	if (keysDown[39]) { // right ---------> put key the user chose
+	if (keysDown[rightKey]) { // right ---------> put key the user chose
 		return 4;
 	}
 }
@@ -189,7 +192,7 @@ function Draw() {
 			} else if (board[i][j] == 11) { //if is food of 5 points
 				context.beginPath();
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-				context.fillStyle = "black"; //color
+				context.fillStyle = color5point; //color
 				context.fill();
 			} else if (board[i][j] == 4) { // if is wall 
 				context.beginPath();
@@ -199,12 +202,12 @@ function Draw() {
 			} else if (board[i][j] == 12) { //if is red food - food of 15 points
 				context.beginPath();
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-				context.fillStyle = "red"; //color
+				context.fillStyle = color10point; //color
 				context.fill();
 			} else if (board[i][j] == 13) { //if is food of 25 points - blue
 				context.beginPath();
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-				context.fillStyle = "blue"; //color
+				context.fillStyle = color15point; //color
 				context.fill();
 			}
 		}
@@ -302,7 +305,7 @@ function UpdatePosition() {
 	if (score >= 20 && time_elapsed <= 10) { //???
 		pac_color = "green";
 	}
-	if (score == 50) { // end game 
+	if (score == 50) { // end game - needs to be : no food in game
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	}else if(time_elapsed>=maxTimeForGame){
