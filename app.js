@@ -22,6 +22,7 @@ var temp;
 var numOfLives=5;
 var foodOnBoardUpdate;
 var ghostArray = [];
+var magicDrawerCount=0;
 
 var gameBackroundSong= new Audio("songs/pac-man-intro.mp3");
 gameBackroundSong.loop=true;
@@ -41,6 +42,10 @@ face.y=1.85;
 face.x=0.15;
 
 var ghost=new Object();
+
+var magic50= new Object();
+
+
 
 
 function Start() { // setup -first drow 
@@ -132,8 +137,16 @@ function Start() { // setup -first drow
 		pacman_remain--;
 	}
 	
+	
 	putGhostsOnBord(); //paint ghosts
-	  
+	
+	//magic 50
+	emptyCell=findRandomEmptyCell(board);
+	magic50.lastItem=board[emptyCell[0]][emptyCell[1]];
+	magic50.i=emptyCell[0];
+	magic50.j=emptyCell[1];  
+	board[emptyCell[0]][emptyCell[1]] = 50;
+
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -293,6 +306,11 @@ function Draw() {
 	for(var k=0;k<numofGhost;k++){
 		context.drawImage(img, ghostArray[k].x*60, ghostArray[k].y*60,60,60);
 	}
+	//draw cherry
+	if(magic50 !=undefined){
+	var appleImg= document.getElementById("apple");
+	context.drawImage(appleImg, magic50.i*60, magic50.j*60,60,60);
+	}
 }
 
 function bestMoveOfGhost(){
@@ -305,14 +323,14 @@ function bestMoveOfGhost(){
 }
 
 function UpdatePositionGhost() {
-	
+
 	var nextMove= bestMoveOfGhost();
 	for(var w=0;w<numofGhost;w++){
 		board[ghostArray[w].x][ghostArray[w].y] = ghostArray[w].lastItem; // put last object: lastMoveCellG1
 		var ghostMove= ghostArray[w].bestMove;
 		if (ghostMove == 1) { // up 
 			if (ghostArray[w].y > 0 && board[ghostArray[w].x][ghostArray[w].y - 1] != 4) {
-				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y];
+				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y-1];
 				ghostArray[w].y=ghostArray[w].y-1;
 			}
 		}
@@ -324,13 +342,13 @@ function UpdatePositionGhost() {
 		}
 		if (ghostMove == 3) { //left
 			if (ghostArray[w].x > 0 && board[ghostArray[w].x - 1][ghostArray[w].y] != 4) {
-				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y];
+				ghostArray[w].lastItem=board[ghostArray[w].x-1][ghostArray[w].y];
 				ghostArray[w].x=ghostArray[w].x-1;
 			}
 		}
 		if (ghostMove == 4) {//right
 			if (ghostArray[w].x < 9 && board[ghostArray[w].x + 1][ghostArray[w].y] != 4) {
-				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y]; 
+				ghostArray[w].lastItem=board[ghostArray[w].x+1][ghostArray[w].y]; 
 				ghostArray[w].x=ghostArray[w].x+1;
 			}
 		}
@@ -338,7 +356,50 @@ function UpdatePositionGhost() {
 	}
 }
 
+function UpdateMagic50Position(){
+	board[magic50.i][magic50.j] = magic50.lastItem;
+	var directiongood=false;
+	var direction;
+	while( !directiongood){
+		direction=Math.floor(Math.random() * 7);
+		if (direction== 1) { // up 
+			if (magic50.j > 0 && board[magic50.i][magic50.j - 1] != 4 &&board[magic50.i][magic50.j - 1] != 3) {
+			magic50.lastItem=board[magic50.i][magic50.j-1];
+			magic50.j--;
+			directiongood=true;
+			}
+		}
+		if (direction == 2) { // down
+			if (magic50.j < 9 && board[magic50.i][magic50.j + 1] != 4 && board[magic50.i][magic50.j + 1] != 3) {
+			magic50.lastItem=board[magic50.i][magic50.j+1];
+			magic50.j++;
+			directiongood=true;
+			}
+		}	
+	if (direction == 3) { //left
+		if (magic50.i > 0 && board[magic50.i - 1][magic50.j] != 4 &&board[magic50.i - 1][magic50.j] != 3) {
+			magic50.lastItem=board[magic50.i-1][magic50.j];
+			magic50.i--;
+			directiongood=true;
+		}
+	}
+	if (direction == 4) {//right
+		if (magic50.i < 9 && board[magic50.i + 1][magic50.j] != 4 && board[magic50.i + 1][magic50.j] != 3) {
+			magic50.lastItem=board[magic50.i+1][magic50.j];
+			magic50.i++;
+			directiongood=true;
+		}
+	}
+	if(direction==0 ||directiongood==5 || direction==6){
+		directiongood=true;
+	}
+	}
+	board[magic50.i][magic50.j]  = 50; 
+	
+}
+
 function UpdatePosition() { 
+	magicDrawerCount++;
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed(); // last move of user
 	var pacmanEatenByGhost=false;
@@ -356,7 +417,6 @@ function UpdatePosition() {
 	}
 	if(pacmanEatenByGhost){// end of game
 		score= score-10;
-		//document.getElementById("life"+numOfLives).css('opacity', 0); // hide
 		$("#life"+numOfLives+"").css('opacity', 0); // hide
 		numOfLives=numOfLives-1;
 		window.clearInterval(interval);
@@ -378,22 +438,22 @@ function UpdatePosition() {
 	}
 	else{
 		var faceDirection=24;
-	if (x == 1) { // up 
-		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
+		if (x == 1) { // up 
+			if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
 			//faceDirection=21;//'pacmanUp';
 			face.y=3.35;
 			face.x=1.6; 
 			shape.j--;
 		}
 	}
-	if (x == 2) { // down
-		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+		if (x == 2) { // down
+			if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
 			//faceDirection=22;//'pacmanDown';
 			face.y=2.3;
 			face.x=0.7; 
 			shape.j++;
 		}
-	}
+	}	
 	if (x == 3) { //left
 		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
 			//faceDirection=23;//'pacmanLeft';
@@ -410,7 +470,7 @@ function UpdatePosition() {
 			shape.i++;
 		}
 	}
-	UpdatePositionGhost();
+
 	if (board[shape.i][shape.j] == 11) { // chek the type of food! update score
 			score=score+5;
 			foodOnBoardUpdate--;
@@ -423,6 +483,20 @@ function UpdatePosition() {
 			score=score+25;
 			foodOnBoardUpdate--;
 	}
+	if(board[shape.i][shape.j] == 50){//eat magic 50
+		score=score+50;
+		if(magic50.lastItem==11){
+			score=score+5;
+			foodOnBoardUpdate--;
+		}else if(magic50.lastItem==12){
+			score=score+15;
+			foodOnBoardUpdate--;
+		}else if(magic50.lastItem==13){
+			score=score+25;
+			foodOnBoardUpdate--;
+		}
+		magic50=undefined;
+	}
 	board[shape.i][shape.j] = 2;  //!! #
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
@@ -430,7 +504,15 @@ function UpdatePosition() {
 	if (score >= 20 && time_elapsed <= 10) { //???
 			pac_color = "green";
 	}
-		
+
+
+	UpdatePositionGhost();
+	
+	if(magic50 !=undefined && magicDrawerCount%5==0){
+		UpdateMagic50Position();
+	}
+	
+	
 	Draw();
 	
 	}

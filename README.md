@@ -8,3 +8,4 @@ numbers in arr:
 2=pacman
 3=ghost
 4=wall 
+50 = magic apple
