@@ -29,8 +29,6 @@ face.y=1.85;
 face.x=0.15;
 
 var ghost=new Object();
-ghost.x;
-ghost.y;
 
 
 function Start() { // setup -first drow 
@@ -41,6 +39,8 @@ function Start() { // setup -first drow
 	var food_remain = numOfFoffInBoard; //num of points of food 
 	var pacman_remain = 1; 
 	start_time = new Date();
+	shape.i = 1;
+	shape.j = 1;
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
@@ -88,6 +88,7 @@ function Start() { // setup -first drow
 		food_remain--;
 	}
 	
+	putGhostsOnBord(); //paint ghosts
 	  
 	keysDown = {};
 	addEventListener(
@@ -105,13 +106,11 @@ function Start() { // setup -first drow
 		false
 	);
 	   
-	lastMoveCellG1=board[0][0];
-	putGhostsOnBord(); //paint ghosts
-	//ghost.x=0;
-	//ghost.y=0;
 	
-	interval = setInterval(intervalFancs, 120); // get from user
-	//interval = setInterval(intervalFancs, 20000); 
+	
+	
+	interval = setInterval(UpdatePosition, 120); // get from user
+	//interval = setInterval(intervalFancs, 120); 
 }
 
 function intervalFancs(){
@@ -131,12 +130,15 @@ function findRandomEmptyCell(board) {
 
 function putGhostsOnBord(){
 	if(numofGhost==1){
-		board[0][0]= 3;
-		ghost.x=0;
-		ghost.y=0;
+		lastMoveCellG1=board[0][0];
+		board[5][5]= 3;
+		ghost.x=5;
+		ghost.y=5;
 
 	}else if(numofGhost ==2){
 		board[0][0]= 3;
+		ghost.x=0;
+		ghost.y=0;
 		board[0][9]= 3;
 	}else if(numofGhost ==3){
 		board[0][0]= 3;
@@ -212,25 +214,25 @@ function Draw() {
 	}
 }
 
-function manhetenDis(){
-	return 2; // calc witch durction is beter - up down left right
-	//if up is the best way -> return 1 , down->rturn 2
+function manhetenDis(ghost){
+	return 1; // calc witch durction is beter - up down left right
+	//if up is the best way -> return 1 , right->rturn 2
 	// 		left->3 , right->4
 }
 
 function UpdatePositionGhost() {
 	board[ghost.x][ghost.y] = lastMoveCellG1; // put last object: lastMoveCellG1
-	var ghostMove=manhetenDis();
+	var ghostMove=manhetenDis(ghost); // ?
 	if (ghostMove == 1) { // up 
-		if (ghost.x > 0 && board[shape.i][shape.j - 1] != 4) {
+		if (ghost.y > 0 && board[ghost.x][ghost.y - 1] != 4) {
 			lastMoveCellG1=board[ghost.x][ghost.y];
-			ghost.x--;
+			ghost.y--;
 		}
 	}
 	if (ghostMove == 2) { // down R
-		if (ghost.x < 9 && board[ghost.x][ghost.y + 1] != 4) {
-			lastMoveCellG1=board[ghost.x][ghost.y];
-			ghost.x++;
+		if (ghost.y < 9 && board[ghost.x][ghost.y + 1] != 4) {
+			lastMoveCellG1=board[ghost.x][ghost.y + 1];
+			ghost.y++;
 		}
 	}
 	if (ghostMove == 3) { //left
@@ -286,7 +288,7 @@ function UpdatePosition() {
 			shape.i++;
 		}
 	}
-	
+	UpdatePositionGhost();
 	if (board[shape.i][shape.j] == 11) { // chek the type of food! update score
 		score++;
 	}
