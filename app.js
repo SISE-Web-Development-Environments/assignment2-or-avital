@@ -23,6 +23,15 @@ var numOfLives=5;
 var foodOnBoardUpdate;
 var ghostArray = [];
 
+var gameBackroundSong= new Audio("songs/pac-man-intro.mp3");
+gameBackroundSong.loop=true;
+var totalDeathMusic= new Audio("songs/pacman-death.mp3");
+totalDeathMusic.loop=false;
+var lifeLostMusic= new Audio("songs/pacman-lostlife.mp3");
+lifeLostMusic.loop=false;
+var victoryMusic= new Audio("songs/victory-song.mp3");
+lifeLostMusic.loop=false;
+
 $(document).ready(function() {
 	context = canvas.getContext("2d");
 });
@@ -41,6 +50,9 @@ function Start() { // setup -first drow
 	pac_color = "yellow";
 	var cnt = 100;
 	var food_remain = numOfFoffInBoard; //num of points of food 
+	var numof5points=Math.round(0.6*food_remain);
+	var numof15points= Math.round(0.3*food_remain);
+	var numof25points= food_remain-numof5points-numof15points;
 	foodOnBoardUpdate=numOfFoffInBoard;
 	var pacman_remain = 1; 
 	start_time = new Date();
@@ -63,16 +75,22 @@ function Start() { // setup -first drow
 				//check place of ghost - (i == 0 && j == 0)!!!!!!!
 				var randomNum = Math.random(); 
 				if (randomNum <= (1.0 * food_remain) / cnt) { // if buger then x- we will drow food
-					food_remain--;
+					
 					var randomNum2 = Math.random(); 
-					if(randomNum2>=0 && randomNum2<0.6){ //  60% of food of 5 points
+					if(randomNum2>=0 && randomNum2<0.6 && numof5points>0){ //  60% of food of 5 points
 						board[i][j] = 11;
+						numof5points--;
+						food_remain--;
 					}
-					else if(randomNum2>=0.6 && randomNum2<0.9){ //  30% of food of 15 points
+					else if(randomNum2>=0.6 && randomNum2<0.9 &&numof15points>0){ //  30% of food of 15 points
 						board[i][j] = 12;
+						numof15points--;
+						food_remain--;
 					}
-					else{
+					else if(numof25points>0){
 						board[i][j] = 13; // 10% of food of 25 points
+						numof25points--;
+						food_remain--;
 					}
 					
 				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
@@ -87,10 +105,31 @@ function Start() { // setup -first drow
 			}
 		}
 	}
-	while (food_remain > 0) {
-		var emptyCell = findRandomEmptyCell(board);
-		board[emptyCell[0]][emptyCell[1]] = 1; //food
+	var emptyCell ;
+	while (numof5points > 0) {
+		emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 11; //food
 		food_remain--;
+		numof5points--;
+	}
+	while (numof15points > 0) {
+		emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 12; //food
+		food_remain--;
+		numof15points--;
+	}
+	while (numof25points > 0) {
+		emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 13; //food
+		food_remain--;
+		numof25points--;
+	}
+	if(pacman_remain!=0){
+		emptyCell = findRandomEmptyCell(board);
+		shape.i=emptyCell[0];
+		shape.j=emptyCell[1];
+		board[emptyCell[0]][emptyCell[1]] = 2; //pacman
+		pacman_remain--;
 	}
 	
 	putGhostsOnBord(); //paint ghosts
@@ -111,11 +150,34 @@ function Start() { // setup -first drow
 		false
 	);
 	   
-	
-	
-	
+	var numof11=0;
+	for(var n=0;n<10;n++){
+		for(var m=0;m<10;m++){
+			if(board[n][m]==11 ){
+				numof11++;
+			}
+		}
+	}
+	var numof12=0;
+	for(var n=0;n<10;n++){
+		for(var m=0;m<10;m++){
+			if(board[n][m]==12 ){
+				numof12++;
+			}
+		}
+	}
+	var numof13=0;
+	for(var n=0;n<10;n++){
+		for(var m=0;m<10;m++){
+			if(board[n][m]==13 ){
+				numof13++;
+			}
+		}
+	}
+	gameBackroundSong.play();
 	interval = setInterval(UpdatePosition, 120); // get from user
 	//interval = setInterval(intervalFancs, 120); 
+}
 }
 
 function intervalFancs(){
@@ -137,26 +199,26 @@ function putGhostsOnBord(){
 	for(var v=0;v<numofGhost;v++){
 		ghostArray[v]=new Object();
 		if(v==0){
-			board[0][0]= 3;
-			lastMoveCellG1=board[0][0]; 
+			lastMoveCellG1=board[0][0]; // ????????????
 			ghostArray[v].lastItem=board[0][0];
+			board[0][0]= 3;
 			ghostArray[v].x=0;
 			ghostArray[v].y=0;
 		}else if(v==1){
-			board[0][9]=3;
 			ghostArray[v].lastItem=board[0][9];
+			board[0][9]=3;
 			ghostArray[v].x=0;
 			ghostArray[v].y=9;
 		}
 		else if(v==2){
-			board[9][0]=3;
 			ghostArray[v].lastItem=board[9][0];
+			board[9][0]=3;
 			ghostArray[v].x=9;
 			ghostArray[v].y=0;
 		}
 		else if(v==3){
-			board[9][9]=3;
 			ghostArray[v].lastItem=board[9][9];
+			board[9][9]=3;
 			ghostArray[v].x=9;
 			ghostArray[v].y=9;
 		}
@@ -279,8 +341,43 @@ function UpdatePositionGhost() {
 function UpdatePosition() { 
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed(); // last move of user
-	
-	var faceDirection=24;
+	var pacmanEatenByGhost=false;
+	if (foodOnBoardUpdate == 0) { // end game - needs to be : no food in game
+		gameBackroundSong.pause();
+		victoryMusic.play();
+		window.clearInterval(interval);
+		window.alert("Game completed");
+
+	}
+	for(var index=0;index<numofGhost;index++){
+		if(shape.i== ghostArray[index].x && shape.j==ghostArray[index].y){
+			pacmanEatenByGhost=true;
+		}
+	}
+	if(pacmanEatenByGhost){// end of game
+		score= score-10;
+		//document.getElementById("life"+numOfLives).css('opacity', 0); // hide
+		$("#life"+numOfLives+"").css('opacity', 0); // hide
+		numOfLives=numOfLives-1;
+		window.clearInterval(interval);
+		gameBackroundSong.pause();
+		gameBackroundSong.currentTime = 0;
+		if(numOfLives==0){// end of final game
+			totalDeathMusic.play();
+			$("#endOfGameNoLives").modal();
+		}
+		else{//start new game in curr
+			lifeLostMusic.play();
+			$("#pacmanDie").modal({
+				escapeClose: false,
+				clickClose: false,
+				showClose: false
+			  });
+
+		}
+	}
+	else{
+		var faceDirection=24;
 	if (x == 1) { // up 
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
 			//faceDirection=21;//'pacmanUp';
@@ -314,34 +411,46 @@ function UpdatePosition() {
 		}
 	}
 	UpdatePositionGhost();
-	
 	if (board[shape.i][shape.j] == 11) { // chek the type of food! update score
-		score=score+5;
-		foodOnBoardUpdate--;
+			score=score+5;
+			foodOnBoardUpdate--;
 	}
-	if(board[shape.i][shape.j] == 12){
-		score=score+15;
-		foodOnBoardUpdate--;
+		if(board[shape.i][shape.j] == 12){
+			score=score+15;
+			foodOnBoardUpdate--;
 	}
-	if(board[shape.i][shape.j] == 13){
-		score=score+25;
-		foodOnBoardUpdate--;
+		if(board[shape.i][shape.j] == 13){
+			score=score+25;
+			foodOnBoardUpdate--;
 	}
-
 	board[shape.i][shape.j] = 2;  //!! #
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
+	
 	if (score >= 20 && time_elapsed <= 10) { //???
-		pac_color = "green";
+			pac_color = "green";
 	}
-	if (foodOnBoardUpdate == 0) { // end game - needs to be : no food in game
-		window.clearInterval(interval);
-		window.alert("Game completed");
-	// }else if(time_elapsed>=maxTimeForGame){
-	// 	window.clearInterval(interval);
-	// 	window.alert("Time  pass - Game finish :( ");
-	} else {
-		Draw();
+		
+	Draw();
+	
 	}
+	
+	
+	
 }
+
+function pacmanDies(){
+	$.modal.close();
+	for(var i=0;i<numofGhost;i++){
+		board[ghostArray[i].x][ghostArray[i].y] = ghostArray[i].lastItem; // put last object: lastMoveCellG1
+	}
+	//board[shape.i][shape.j]=0;
+	var indexes= findRandomEmptyCell(board);
+	shape.i = indexes[0];
+	shape.j = indexes[1];
+	board[indexes[0]][indexes[1]]=2;
+	putGhostsOnBord();
+	Draw();
+	gameBackroundSong.play();
+	interval = setInterval(UpdatePosition, 120);
 }
