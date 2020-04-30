@@ -195,10 +195,12 @@ function Draw() {
 				context.arc(center.x + 11, center.y - 15, 5, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
-			}else if (board[i][j] == 3) { //ghost
-				 var img=document.getElementById("ghost");
-				 context.drawImage(img, ghost.x*60, ghost.y*60,60,60);
-			} else if (board[i][j] == 11) { //if is food of 5 points
+			}
+			// else if (board[i][j] == 3) { //ghost
+			// 	 var img=document.getElementById("ghost");
+			// 	 context.drawImage(img, ghost.x*60, ghost.y*60,60,60);
+			// } 
+			else if (board[i][j] == 11) { //if is food of 5 points
 				context.beginPath();
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
 				context.fillStyle = color5point; //color
@@ -220,6 +222,11 @@ function Draw() {
 				context.fill();
 			}
 		}
+	}
+	//drow ghosts
+	var img=document.getElementById("ghost");
+	for(var k=0;k<numofGhost;k++){
+		context.drawImage(img, ghostArray[k].x*60, ghostArray[k].y*60,60,60);
 	}
 }
 
