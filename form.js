@@ -59,6 +59,7 @@ $(function() {
         var username = document.getElementById("username").value;
 		    if (userDB[username] == undefined) {
 			  var password = document.getElementById("password").value;
+        document.getElementById("usernameLabel").innerHTML=username;
         $("#signInOK").modal({
           escapeClose: false,
           clickClose: false,
@@ -81,6 +82,7 @@ $(function() {
     var password = document.getElementById("passwordLogIn").value;
     if(userDB[username]==password){
       //set current user name????
+      document.getElementById("usernameLabel").innerHTML=username;
       $("#logInOK").modal({
         escapeClose: false,
         clickClose: false,

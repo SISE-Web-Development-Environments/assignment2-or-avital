@@ -35,3 +35,12 @@ nav a:hover{
 	color: #1d2629;
 }
 
+#gameLine
+{
+    text-align:left;
+}
+#score, #time, #usernameTitle, #lives
+{
+	display:inline;
+	padding: 5px;
+}

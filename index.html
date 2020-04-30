@@ -266,22 +266,40 @@
 			<p>Bla bla bla</p>
 			<input type="button" name="closeAbout" id="closeAbout" value="Close" onclick="closeModal()"/>
 		</div>
+
 		<div id="gamePage" style="display: none;" >
-			<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
-		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
-		</div>
+			<div id="gameLine">
+				<div id="score">
+				<label for="lblScore">SCORE:</label>
+				<input id="lblScore" type="text" />
+				</div>
+				<div id="time">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
+				</div>
+				<div id="lives">
+					<label for="lblTime">LIVES LEFT:</label>
+					<a id="life1">&#128151;</a>
+					<a id="life2">&#128156;</a>
+					<a id="life3">&#128155;</a>
+					<a id="life4">&#128154;</a>
+					<a id="life5">&#128153;</a>
+					</div>
+				<div id="usernameTitle">
+				<label for="usernameLabel">USER NAME:</label>
+				<label id="usernameLabel"></label>
+				</div>
+				
+			
+			</div>
 		<div id="game">
 			<canvas id="canvas" height="600" width="600"></canvas>
 		</div>
 		<div id="ghostImage"> 
-			<img id="ghost" width="220" height="277" src="ghost1.PNG" alt="The ghost pacman" style="display: none;"> </div>
-			<div id="x"> 
-				 </div>
+			<img id="ghost" width="220" height="277" src="ghost1.PNG" alt="The ghost pacman" style="display: none;">
+		 </div>
+		<div id="x"> 
+		</div>
 			
 		</div>
 		
