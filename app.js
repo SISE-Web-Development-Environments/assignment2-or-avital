@@ -21,6 +21,7 @@ var startgame=false;
 var temp;
 var numOfLives=5;
 var foodOnBoardUpdate;
+var ghostArray = [];
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
@@ -133,27 +134,34 @@ function findRandomEmptyCell(board) {
 }
 
 function putGhostsOnBord(){
-	if(numofGhost==1){
-		lastMoveCellG1=board[0][0];
-		board[5][5]= 3;
-		ghost.x=5;
-		ghost.y=5;
-
-	}else if(numofGhost ==2){
-		board[0][0]= 3;
-		ghost.x=0;
-		ghost.y=0;
-		board[0][9]= 3;
-	}else if(numofGhost ==3){
-		board[0][0]= 3;
-		board[0][9]= 3;
-		board[9][0]= 3;
-	}else{ // numOfGhots ==4
-		board[0][0]= 3;
-		board[0][9]= 3;
-		board[9][0]= 3;
-		board[9][9]= 3;
+	for(var v=0;v<numofGhost;v++){
+		ghostArray[v]=new Object();
+		if(v==0){
+			board[0][0]= 3;
+			lastMoveCellG1=board[0][0]; 
+			ghostArray[v].lastItem=board[0][0];
+			ghostArray[v].x=0;
+			ghostArray[v].y=0;
+		}else if(v==1){
+			board[0][9]=3;
+			ghostArray[v].lastItem=board[0][9];
+			ghostArray[v].x=0;
+			ghostArray[v].y=9;
+		}
+		else if(v==2){
+			board[9][0]=3;
+			ghostArray[v].lastItem=board[9][0];
+			ghostArray[v].x=9;
+			ghostArray[v].y=0;
+		}
+		else if(v==3){
+			board[9][9]=3;
+			ghostArray[v].lastItem=board[9][9];
+			ghostArray[v].x=9;
+			ghostArray[v].y=9;
+		}
 	}
+	
 }
 
 function GetKeyPressed() {
@@ -190,10 +198,12 @@ function Draw() {
 				context.arc(center.x + 11, center.y - 15, 5, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
-			}else if (board[i][j] == 3) { //ghost
-				 var img=document.getElementById("ghost");
-				 context.drawImage(img, ghost.x*60, ghost.y*60,60,60);
-			} else if (board[i][j] == 11) { //if is food of 5 points
+			}
+			// else if (board[i][j] == 3) { //ghost
+			// 	 var img=document.getElementById("ghost");
+			// 	 context.drawImage(img, ghost.x*60, ghost.y*60,60,60);
+			// } 
+			else if (board[i][j] == 11) { //if is food of 5 points
 				context.beginPath();
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
 				context.fillStyle = color5point; //color
@@ -216,43 +226,54 @@ function Draw() {
 			}
 		}
 	}
+	//drow ghosts
+	var img=document.getElementById("ghost");
+	for(var k=0;k<numofGhost;k++){
+		context.drawImage(img, ghostArray[k].x*60, ghostArray[k].y*60,60,60);
+	}
 }
 
-function manhetenDis(ghost){
-	return 2; // calc witch durction is beter - up down left right
+function bestMoveOfGhost(){
+	for(var q=0;q<numofGhost;q++){
+		ghostArray[q].bestMove=2;
+	}
+	return true; // calc witch durction is beter - up down left right
 	//if up is the best way -> return 1 , right->rturn 2
 	// 		left->3 , right->4
 }
 
 function UpdatePositionGhost() {
-	board[ghost.x][ghost.y] = lastMoveCellG1; // put last object: lastMoveCellG1
-	var ghostMove=manhetenDis(ghost); // ?
-	if (ghostMove == 1) { // up 
-		if (ghost.y > 0 && board[ghost.x][ghost.y - 1] != 4) {
-			lastMoveCellG1=board[ghost.x][ghost.y];
-			ghost.y=ghost.y-1;
+	
+	var nextMove= bestMoveOfGhost();
+	for(var w=0;w<numofGhost;w++){
+		board[ghostArray[w].x][ghostArray[w].y] = ghostArray[w].lastItem; // put last object: lastMoveCellG1
+		var ghostMove= ghostArray[w].bestMove;
+		if (ghostMove == 1) { // up 
+			if (ghostArray[w].y > 0 && board[ghostArray[w].x][ghostArray[w].y - 1] != 4) {
+				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y];
+				ghostArray[w].y=ghostArray[w].y-1;
+			}
 		}
-	}
-	if (ghostMove == 2) { // down R
-		if (ghost.y < 9 && board[ghost.x][ghost.y + 1] != 4) {
-			lastMoveCellG1=board[ghost.x][ghost.y + 1];
-			ghost.y=ghost.y+1;
+		 if (ghostMove == 2) { // down R
+			if (ghostArray[w].y < 9 && board[ghostArray[w].x][ghostArray[w].y + 1] != 4) {
+				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y + 1];
+				ghostArray[w].y=ghostArray[w].y+1;
+			}
 		}
-	}
-	if (ghostMove == 3) { //left
-		if (ghost.x > 0 && board[ghost.x - 1][ghost.y] != 4) {
-			lastMoveCellG1=board[ghost.x][ghost.y];
-			ghost.x=ghost.x-1;
+		if (ghostMove == 3) { //left
+			if (ghostArray[w].x > 0 && board[ghostArray[w].x - 1][ghostArray[w].y] != 4) {
+				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y];
+				ghostArray[w].x=ghostArray[w].x-1;
+			}
 		}
-	}
-	if (ghostMove == 4) {//right
-		if (ghost.x < 9 && board[ghost.x + 1][ghost.y] != 4) {
-			lastMoveCellG1=board[ghost.x][ghost.y]; 
-			ghost.x=ghost.x+1;
+		if (ghostMove == 4) {//right
+			if (ghostArray[w].x < 9 && board[ghostArray[w].x + 1][ghostArray[w].y] != 4) {
+				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y]; 
+				ghostArray[w].x=ghostArray[w].x+1;
+			}
 		}
+		board[ghostArray[w].x][ghostArray[w].y] = 3; 
 	}
-	board[ghost.x][ghost.y] = 3; 
-
 }
 
 function UpdatePosition() { 
