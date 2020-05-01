@@ -345,7 +345,7 @@ function bestMoveOfGhost(){
 
 		
 		 // down
-		if (ghostArray[q].y < 9 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 ) { // && ghostArray[q].prevMove != "left"
+		if (ghostArray[q].y < 9 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 && board[ghostArray[q].x][ghostArray[q].y + 1] != 50 &&board[ghostArray[q].x][ghostArray[q].y + 1] != 60 ) { // && ghostArray[q].prevMove != "left"
 				var rightYCalc=Math.abs(shape.j-(ghostArray[q].y+1));	
 				var down= Xsub+rightYCalc;
 				if(down<minDistance && ghostArray[q].lastMove!=7 ){
