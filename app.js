@@ -73,7 +73,7 @@ function Start() { // setup -first drow
 	pill1=new Object();
 	if(startgame){
 		board = [
-			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
 			[0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0],
 			[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
@@ -84,7 +84,7 @@ function Start() { // setup -first drow
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
 		];
 	UpdateSettingLabels();
 	score = 0;
@@ -229,27 +229,27 @@ function putGhostsOnBord(){
 		ghostArray[v]=new Object();
 		if(v==0){
 			//lastMoveCellG1`=board[0][0]; // ????????????
-			ghostArray[v].lastItem=board[0][0];
+			ghostArray[v].lastItem=0;
 			ghostArray[v].lastMove=0;
 			board[0][0]= 3;
 			ghostArray[v].x=0;
 			ghostArray[v].y=0;
 		}else if(v==1){
-			ghostArray[v].lastItem=board[0][maxLen];
+			ghostArray[v].lastItem=0;
 			ghostArray[v].lastMove=0;
 			board[0][maxLen]=3;
 			ghostArray[v].x=0;
 			ghostArray[v].y=maxLen;
 		}
 		else if(v==2){
-			ghostArray[v].lastItem=board[maxLen][0];
+			ghostArray[v].lastItem=0;
 			ghostArray[v].lastMove=0;
 			board[maxLen][0]=3;
 			ghostArray[v].x=maxLen;
 			ghostArray[v].y=0;
 		}
 		else if(v==3){
-			ghostArray[v].lastItem=board[maxLen][maxLen];
+			ghostArray[v].lastItem=0;
 			ghostArray[v].lastMove=0;
 			board[maxLen][maxLen]=3;
 			ghostArray[v].x=maxLen;
@@ -610,6 +610,7 @@ function UpdatePosition() {
 		}
 	}
 	if(board[shape.i][shape.j] == 7){//eat clock pill 
+
 		clockPillMusic.play();
 		maxTimeForGame=maxTimeForGame+30; 
 		clockPill=undefined;
