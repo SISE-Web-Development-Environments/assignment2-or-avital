@@ -13,8 +13,6 @@ var board = [
 	[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-
-	
 ];
 var score;
 var pac_color;
@@ -58,7 +56,7 @@ $(document).ready(function() {
 	context = canvas.getContext("2d");
 	
 	//var cellSize = canvas.height/10;
-	context.rotate(Math.PI/2);
+	//context.rotate(Math.PI/2);
 });
 
 
