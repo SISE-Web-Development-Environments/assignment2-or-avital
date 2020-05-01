@@ -9,3 +9,4 @@ numbers in arr:
 3=ghost
 4=wall 
 50 = magic apple
+60=pill

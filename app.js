@@ -24,6 +24,7 @@ var foodOnBoardUpdate;
 var ghostArray = [];
 var magicDrawerCount=0;
 
+
 var gameBackroundSong= new Audio("songs/pac-man-intro.mp3");
 gameBackroundSong.loop=true;
 var totalDeathMusic= new Audio("songs/pacman-death.mp3");
@@ -45,7 +46,7 @@ var ghost=new Object();
 
 var magic50= new Object();
 
-
+var pill1= new Object();
 
 
 function Start() { // setup -first drow 
@@ -146,6 +147,11 @@ function Start() { // setup -first drow
 	magic50.i=emptyCell[0];
 	magic50.j=emptyCell[1];  
 	board[emptyCell[0]][emptyCell[1]] = 50;
+
+	emptyCell=findRandomEmptyCell(board);
+	pill1.i=emptyCell[0];
+	pill1.j=emptyCell[1];  
+	board[emptyCell[0]][emptyCell[1]] = 60;
 
 	keysDown = {};
 	addEventListener(
@@ -311,6 +317,11 @@ function Draw() {
 	var appleImg= document.getElementById("apple");
 	context.drawImage(appleImg, magic50.i*60, magic50.j*60,60,60);
 	}
+	//draw pill
+	if(pill1!= undefined){
+		var pillImg= document.getElementById("pill");
+		context.drawImage(pillImg, pill1.i*60, pill1.j*60,60,60);
+	}
 }
 
 function bestMoveOfGhost(){
@@ -363,28 +374,28 @@ function UpdateMagic50Position(){
 	while( !directiongood){
 		direction=Math.floor(Math.random() * 7);
 		if (direction== 1) { // up 
-			if (magic50.j > 0 && board[magic50.i][magic50.j - 1] != 4 &&board[magic50.i][magic50.j - 1] != 3) {
+			if (magic50.j > 0 && board[magic50.i][magic50.j - 1] != 4 && board[magic50.i][magic50.j - 1] != 3 && board[magic50.i][magic50.j - 1] !=2) {
 			magic50.lastItem=board[magic50.i][magic50.j-1];
 			magic50.j--;
 			directiongood=true;
 			}
 		}
 		if (direction == 2) { // down
-			if (magic50.j < 9 && board[magic50.i][magic50.j + 1] != 4 && board[magic50.i][magic50.j + 1] != 3) {
+			if (magic50.j < 9 && board[magic50.i][magic50.j + 1] != 4 && board[magic50.i][magic50.j + 1] != 3 && board[magic50.i][magic50.j + 1] != 2) {
 			magic50.lastItem=board[magic50.i][magic50.j+1];
 			magic50.j++;
 			directiongood=true;
 			}
 		}	
 	if (direction == 3) { //left
-		if (magic50.i > 0 && board[magic50.i - 1][magic50.j] != 4 &&board[magic50.i - 1][magic50.j] != 3) {
+		if (magic50.i > 0 && board[magic50.i - 1][magic50.j] != 4 &&board[magic50.i - 1][magic50.j] != 3 &&board[magic50.i - 1][magic50.j] != 2) {
 			magic50.lastItem=board[magic50.i-1][magic50.j];
 			magic50.i--;
 			directiongood=true;
 		}
 	}
 	if (direction == 4) {//right
-		if (magic50.i < 9 && board[magic50.i + 1][magic50.j] != 4 && board[magic50.i + 1][magic50.j] != 3) {
+		if (magic50.i < 9 && board[magic50.i + 1][magic50.j] != 4 && board[magic50.i + 1][magic50.j] != 3 && board[magic50.i + 1][magic50.j] != 2) {
 			magic50.lastItem=board[magic50.i+1][magic50.j];
 			magic50.i++;
 			directiongood=true;
@@ -497,6 +508,9 @@ function UpdatePosition() {
 		}
 		magic50=undefined;
 	}
+	if(board[shape.i][shape.j] == 60){
+		//PILL !!!!!!!!!!!
+	}
 	board[shape.i][shape.j] = 2;  //!! #
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
@@ -512,6 +526,20 @@ function UpdatePosition() {
 		UpdateMagic50Position();
 	}
 	
+	if(magicDrawerCount%5==0){
+		if(pill1 !=undefined){
+			board[pill1.i][pill1.j]=0;
+			pill1=undefined;
+		}
+		else{
+			pill1=new Object();
+			var empty= findRandomEmptyCell(board);
+			pill1.i=emptyCell[0];
+			pill1.j=emptyCell[1];  
+			board[emptyCell[0]][emptyCell[1]] = 60;
+		}
+		UpdateMagic50Position();
+	}
 	
 	Draw();
 	
