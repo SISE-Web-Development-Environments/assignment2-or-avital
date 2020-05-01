@@ -6,6 +6,8 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
+var timePassFromDie;
+var dieTime;
 var maxTimeForGame =100;// get from user - max time for thr game
 var numOfFoffInBoard=50; //get from user
 var rightKey=39;
@@ -23,6 +25,8 @@ var numOfLives=5;
 var foodOnBoardUpdate;
 var ghostArray = [];
 var magicDrawerCount=0;
+var timeDrowGhost;
+var firstGame=true;
 
 
 var gameBackroundSong= new Audio("songs/pac-man-intro.mp3");
@@ -92,6 +96,7 @@ function Start() { // setup -first drow
 	var numof25points= food_remain-numof5points-numof15points;
 	var pacman_remain = 1; 
 	start_time = new Date();
+	firstGame=true;
 	shape.i = 1;
 	shape.j = 1;
 	for (var i = 0; i < 12; i++) {
@@ -321,6 +326,7 @@ function Draw() {
 	for(var k=0;k<numofGhost;k++){
 		context.drawImage(img, ghostArray[k].x*40, ghostArray[k].y*40,40,40);
 	}
+	timeDrowGhost= new Date();
 	//draw apple
 	if(magic50 !=undefined){
 	var appleImg= document.getElementById("apple");
@@ -471,10 +477,12 @@ function UpdateMagic50Position(){
 }
 
 function UpdatePosition() { 
+	startIntervalTime=new Date();
 	magicDrawerCount++;
 	board[shape.i][shape.j] = 0;
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
+	timePassFromDie= (currentTime-timeDrowGhost)/1000;
 	var x = GetKeyPressed(); // last move of user
 	var pacmanEatenByGhost=false;
 	if(time_elapsed>= maxTimeForGame){
@@ -482,6 +490,7 @@ function UpdatePosition() {
 		timeupMusic.play();
 		window.clearInterval(interval);
 		startgame=false;
+		firstGame=false;
 		if(score<100){
 			document.getElementById("lessthan100").innerHTML= "You are better than "+score+" points!";
 			$("#timeUplessthan100").modal();
@@ -513,6 +522,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		gameBackroundSong.pause();
 		gameBackroundSong.currentTime = 0;
+		firstGame=false;
 		if(numOfLives==0){// end of final game
 			startgame=false;
 			totalDeathMusic.play();
@@ -601,22 +611,24 @@ function UpdatePosition() {
 	}
 	if(board[shape.i][shape.j] == 7){//eat clock pill 
 		clockPillMusic.play();
-		maxTimeForGame=time_elapsed+30; 
+		maxTimeForGame=maxTimeForGame+30; 
 		clockPill=undefined;
 	}
 	board[shape.i][shape.j] = 2;  //!! #
 	
 	
-	if (score >= 50 && time_elapsed <= 10) { //???
+	if (score >= 50 && time_elapsed <= 10) { //??? green yamii
 		pac_color = "#00FF00";
 	}
 
-	if(magicDrawerCount % 3 == 0 ){ 
+	if(magicDrawerCount % 3 == 0 && time_elapsed>=3 && firstGame==true){ //#################
+		UpdatePositionGhost();
+	}
+	if( magicDrawerCount%3 ==0 && timePassFromDie>=0.116 &&firstGame==false){
 		UpdatePositionGhost();
 	}
 	
-	
-	if(magic50 !=undefined && magicDrawerCount%5==0){//#################
+	if(magic50 !=undefined && magicDrawerCount%5==0){
 		UpdateMagic50Position();
 	}
 	
@@ -655,6 +667,7 @@ function pacmanDies(){
 	shape.i = indexes[0];
 	shape.j = indexes[1];
 	board[indexes[0]][indexes[1]]=2;
+	firstGame==false;
 	putGhostsOnBord();
 	Draw();
 	gameBackroundSong.play();
