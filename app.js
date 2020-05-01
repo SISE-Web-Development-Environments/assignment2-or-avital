@@ -37,13 +37,10 @@ var chompMusic= new Audio("songs/chomp.mp3");
 chompMusic.loop=false;
 var magic50Music= new Audio("songs/50 points.mp3");
 magic50Music.loop=false;
-<<<<<<< HEAD
-var clockPillMusic= new Audio("songs/clockMusic.mp3"); //add music new
+var clockPillMusic= new Audio("songs/clockMusic.mp3"); 
 clockPillMusic.loop=false;
-=======
 var timeupMusic= new Audio("songs/tada.mp3");
 timeupMusic.loop=false;
->>>>>>> 07d4cb11fd042b015c6c74d3fcb0f3ad65e90e35
 
 
 $(document).ready(function() {
@@ -62,12 +59,9 @@ var ghost=new Object();
 
 var magic50;
 
-<<<<<<< HEAD
 var clockPill= new Object();
 
-=======
 var pill1;
->>>>>>> 07d4cb11fd042b015c6c74d3fcb0f3ad65e90e35
 
 
 function Start() { // setup -first drow 
