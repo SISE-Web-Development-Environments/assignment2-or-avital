@@ -1,6 +1,19 @@
 var context;
 var shape = new Object();
-var board;
+var board = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0],
+	[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0],
+	[0, 4, 4, 0, 0, 0, 0, 0, 4, 4, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
 var score;
 var pac_color;
 var start_time;
@@ -12,7 +25,7 @@ var rightKey=39;
 var leftKey=37;
 var upKey=38;
 var downKey=40;
-var numofGhost=1; // ? get real name -OR
+var numofGhost=4; // ? get real name -OR
 var lastMoveCellG1;
 var color5point="red";
 var color10point="yellow";
@@ -32,13 +45,18 @@ totalDeathMusic.loop=false;
 var lifeLostMusic= new Audio("songs/pacman-lostlife.mp3");
 lifeLostMusic.loop=false;
 var victoryMusic= new Audio("songs/victory-song.mp3");
-lifeLostMusic.loop=false;
+victoryMusic.loop=false;
+var chompMusic= new Audio("songs/chomp.mp3");
+chompMusic.loop=false;
+var magic50Music= new Audio("songs/50 points.mp3");
+magic50Music.loop=false;
 
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
+	
 	//var cellSize = canvas.height/10;
-	context.rotate(Math.PI/2);
+	//context.rotate(Math.PI/2);
 });
 
 
@@ -55,8 +73,20 @@ var pill1= new Object();
 
 
 function Start() { // setup -first drow 
+	/*board = [
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 4, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4],
+		[0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 4, 0, 0, 0],
+		[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	];*/
+	//context.rotate(Math.PI/2);
 	if(startgame){
-	board = new Array();
 	score = 0;
 	pac_color = "yellow";
 	var cnt = 100;
@@ -64,28 +94,15 @@ function Start() { // setup -first drow
 	var numof5points=Math.round(0.6*food_remain);
 	var numof15points= Math.round(0.3*food_remain);
 	var numof25points= food_remain-numof5points-numof15points;
-	foodOnBoardUpdate=numOfFoffInBoard;
 	var pacman_remain = 1; 
 	start_time = new Date();
 	shape.i = 1;
 	shape.j = 1;
-	for (var i = 0; i < 10; i++) {
-		board[i] = new Array();
-		for (var j = 0; j < 10; j++) {
-			if (
-				(i == 5 && j == 0) ||(i == 3 && j == 3) ||(i == 3 && j == 7) ||
-				(i == 6 && j == 1) || (i == 9 && j == 8) ||(i == 6 && j == 5) ||(i == 3 && j == 6) ||
-				(i == 1 && j == 0) || (i == 8 && j == 0) || (i == 3 && j == 2) ||(i == 6 && j == 6) ||(i == 2 && j == 6) ||
-				(i == 2 && j == 2) ||(i == 7 && j == 5) ||(i == 6 && j == 2) ||
-				(i == 0 && j == 8) || (i == 2 && j == 3) ||(i == 7 && j == 6) ||(i == 7 && j == 2)
-			) {
-				board[i][j] = 4; // obstical wall
-			} else { 
-
-				//check place of ghost - (i == 0 && j == 0)!!!!!!!
+	for (var i = 0; i < 12; i++) {
+		for (var j = 0; j < 12; j++) {
+			 if(board[i][j]==0) { 
 				var randomNum = Math.random(); 
-				if (randomNum <= (1.0 * food_remain) / cnt) { // if buger then x- we will drow food
-					
+				if (randomNum <= (1.0 * food_remain) / cnt) { // if bigger then x- we will drow food
 					var randomNum2 = Math.random(); 
 					if(randomNum2>=0 && randomNum2<0.6 && numof5points>0){ //  60% of food of 5 points
 						board[i][j] = 11;
@@ -155,6 +172,7 @@ function Start() { // setup -first drow
 	emptyCell=findRandomEmptyCell(board);
 	pill1.i=emptyCell[0];
 	pill1.j=emptyCell[1];  
+	pill1.canDraw=true;
 	board[emptyCell[0]][emptyCell[1]] = 60;
 
 	keysDown = {};
@@ -173,32 +191,9 @@ function Start() { // setup -first drow
 		false
 	);
 	   
-	var numof11=0;
-	for(var n=0;n<10;n++){
-		for(var m=0;m<10;m++){
-			if(board[n][m]==11 ){
-				numof11++;
-			}
-		}
-	}
-	var numof12=0;
-	for(var n=0;n<10;n++){
-		for(var m=0;m<10;m++){
-			if(board[n][m]==12 ){
-				numof12++;
-			}
-		}
-	}
-	var numof13=0;
-	for(var n=0;n<10;n++){
-		for(var m=0;m<10;m++){
-			if(board[n][m]==13 ){
-				numof13++;
-			}
-		}
-	}
+
 	gameBackroundSong.play();
-	interval = setInterval(UpdatePosition, 180); // 180
+	interval = setInterval(UpdatePosition, 120); // 180
 	//interval = setInterval(intervalFancs, 120); 
 }
 }
@@ -209,11 +204,11 @@ function intervalFancs(){
 }
 
 function findRandomEmptyCell(board) {
-	var i = Math.floor(Math.random() * 9 + 1);
-	var j = Math.floor(Math.random() * 9 + 1);
+	var i = Math.floor(Math.random() * 11 + 1);
+	var j = Math.floor(Math.random() * 11 + 1);
 	while (board[i][j] != 0) {
-		i = Math.floor(Math.random() * 9 + 1);
-		j = Math.floor(Math.random() * 9 + 1);
+		i = Math.floor(Math.random() * 11 + 1);
+		j = Math.floor(Math.random() * 11 + 1);
 	}
 	return [i, j];
 }
@@ -273,19 +268,19 @@ function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	for (var i = 0; i < 10; i++) {
-		for (var j = 0; j < 10; j++) {
+	for (var i = 0; i < 12; i++) {
+		for (var j = 0; j < 12; j++) {
 			var center = new Object();
-			center.x = i * 60 + 30;
-			center.y = j * 60 + 30;
+			center.x = i * 45 + 22.5;
+			center.y = j * 45 + 22.5;
 			if (board[i][j]==2) { //if is  #
 				context.beginPath();
-				context.arc(center.x, center.y, 30, (Math.PI*face.x), (Math.PI*face.y)); // half circle
+				context.arc(center.x, center.y, 22.5, (Math.PI*face.x), (Math.PI*face.y)); // half circle
 				context.lineTo(center.x, center.y);
 				context.fillStyle = pac_color; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x + 11, center.y - 15, 5, 0, 2 * Math.PI); // circle
+				context.arc(center.x + 10, center.y - 13, 5, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
 			}
@@ -295,22 +290,22 @@ function Draw() {
 			// } 
 			else if (board[i][j] == 11) { //if is food of 5 points
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
 				context.fillStyle = color5point; //color
 				context.fill();
 			} else if (board[i][j] == 4) { // if is wall 
 				context.beginPath();
-				context.rect(center.x - 30, center.y - 30, 60, 60);
+				context.rect(center.x - 22.5, center.y - 22.5, 45, 45);
 				context.fillStyle = "grey"; //color
 				context.fill();
 			} else if (board[i][j] == 12) { //if is red food - food of 15 points
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
 				context.fillStyle = color10point; //color
 				context.fill();
 			} else if (board[i][j] == 13) { //if is food of 25 points - blue
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
 				context.fillStyle = color15point; //color
 				context.fill();
 			}
@@ -319,17 +314,17 @@ function Draw() {
 	//drow ghosts
 	var img=document.getElementById("ghost");
 	for(var k=0;k<numofGhost;k++){
-		context.drawImage(img, ghostArray[k].x*60, ghostArray[k].y*60,60,60);
+		context.drawImage(img, ghostArray[k].x*45, ghostArray[k].y*45,45,45);
 	}
 	//draw cherry
 	if(magic50 !=undefined){
 	var appleImg= document.getElementById("apple");
-	context.drawImage(appleImg, magic50.i*60, magic50.j*60,60,60);
+	context.drawImage(appleImg, magic50.i*45, magic50.j*45,45,45);
 	}
 	//draw pill
-	if(pill1!= undefined){
+	if(pill1.canDraw){
 		var pillImg= document.getElementById("pill");
-		context.drawImage(pillImg, pill1.i*60, pill1.j*60,60,60);
+		context.drawImage(pillImg, pill1.i*45, pill1.j*45,45,45);
 	}
 }
 
@@ -345,7 +340,7 @@ function bestMoveOfGhost(){
 
 		
 		 // down
-		if (ghostArray[q].y < 9 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 && board[ghostArray[q].x][ghostArray[q].y + 1] != 50 &&board[ghostArray[q].x][ghostArray[q].y + 1] != 60 ) { // && ghostArray[q].prevMove != "left"
+		if (ghostArray[q].y < 9 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 && board[ghostArray[q].x][ghostArray[q].y + 1] != 50 &&board[ghostArray[q].x][ghostArray[q].y + 1] != 60 ) { 
 				var rightYCalc=Math.abs(shape.j-(ghostArray[q].y+1));	
 				var down= Xsub+rightYCalc;
 				if(down<minDistance && ghostArray[q].lastMove!=7 ){
@@ -357,7 +352,7 @@ function bestMoveOfGhost(){
 			
 			}
 		// up
-		if(ghostArray[q].y > 0 && board[ghostArray[q].x][ghostArray[q].y - 1] != 4 ){
+		if(ghostArray[q].y > 0 && board[ghostArray[q].x][ghostArray[q].y - 1] != 4 && board[ghostArray[q].x][ghostArray[q].y - 1] != 50 && board[ghostArray[q].x][ghostArray[q].y - 1] != 60 ){
 			var leftYCalc=Math.abs(shape.j-(ghostArray[q].y-1));
 			var up=Xsub+leftYCalc;
 			if(up<minDistance&& ghostArray[q].lastMove!=6){
@@ -368,7 +363,7 @@ function bestMoveOfGhost(){
 			}	
 		}
 		// left  
-		if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4){
+		if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4 && board[ghostArray[q].x - 1][ghostArray[q].y] != 50 && board[ghostArray[q].x - 1][ghostArray[q].y] != 60){
 			var upXCalc=Math.abs(shape.i-(ghostArray[q].x-1));
 			var left=Ysub+upXCalc;
 			if(left<minDistance && ghostArray[q].lastMove!=9){
@@ -379,7 +374,7 @@ function bestMoveOfGhost(){
 			}
 		}
 		// right ? 
-		if(ghostArray[q].x < 9 && board[ghostArray[q].x + 1][ghostArray[q].y] != 4){
+		if(ghostArray[q].x < 9 && board[ghostArray[q].x + 1][ghostArray[q].y] != 4 && board[ghostArray[q].x + 1][ghostArray[q].y] != 50 && board[ghostArray[q].x + 1][ghostArray[q].y] != 60){
 			var downXCala=Math.abs(shape.i-(ghostArray[q].x+1));
 			var right=Ysub+downXCala;
 			if(right<minDistance && ghostArray[q].lastMove!=8){
@@ -437,7 +432,7 @@ function UpdateMagic50Position(){
 			}
 		}
 		if (direction == 2) { // down
-			if (magic50.j < 9 && board[magic50.i][magic50.j + 1] != 4 && board[magic50.i][magic50.j + 1] != 3 && board[magic50.i][magic50.j + 1] != 2) {
+			if (magic50.j < 11 && board[magic50.i][magic50.j + 1] != 4 && board[magic50.i][magic50.j + 1] != 3 && board[magic50.i][magic50.j + 1] != 2) {
 			magic50.lastItem=board[magic50.i][magic50.j+1];
 			magic50.j++;
 			directiongood=true;
@@ -451,7 +446,7 @@ function UpdateMagic50Position(){
 		}
 	}
 	if (direction == 4) {//right
-		if (magic50.i < 9 && board[magic50.i + 1][magic50.j] != 4 && board[magic50.i + 1][magic50.j] != 3 && board[magic50.i + 1][magic50.j] != 2) {
+		if (magic50.i < 11 && board[magic50.i + 1][magic50.j] != 4 && board[magic50.i + 1][magic50.j] != 3 && board[magic50.i + 1][magic50.j] != 2) {
 			magic50.lastItem=board[magic50.i+1][magic50.j];
 			magic50.i++;
 			directiongood=true;
@@ -470,6 +465,7 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed(); // last move of user
 	var pacmanEatenByGhost=false;
+	foodOnBoardUpdate=getNumOfFoodInBoard();
 	if (foodOnBoardUpdate == 0) { // end game - needs to be : no food in game
 		gameBackroundSong.pause();
 		victoryMusic.play();
@@ -514,7 +510,7 @@ function UpdatePosition() {
 		}
 	}
 		if (x == 2) { // down
-			if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+			if (shape.j < 11 && board[shape.i][shape.j + 1] != 4) {
 			//faceDirection=22;//'pacmanDown';
 			face.y=2.3;
 			face.x=0.7; 
@@ -530,7 +526,7 @@ function UpdatePosition() {
 		}
 	}
 	if (x == 4) {//right
-		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+		if (shape.i < 11 && board[shape.i + 1][shape.j] != 4) {
 			//faceDirection=24;//'pacmanRight';
 			face.y=1.85;
 			face.x=0.15; 
@@ -540,34 +536,38 @@ function UpdatePosition() {
 
 	if (board[shape.i][shape.j] == 11) { // chek the type of food! update score
 			score=score+5;
-			foodOnBoardUpdate--;
+			
 	}
 		if(board[shape.i][shape.j] == 12){
 			score=score+15;
-			foodOnBoardUpdate--;
+			
 	}
 		if(board[shape.i][shape.j] == 13){
 			score=score+25;
-			foodOnBoardUpdate--;
+			
 	}
 	if(board[shape.i][shape.j] == 50){//eat magic 50
+		magic50Music.play();
 		score=score+50;
 		if(magic50.lastItem==11){
 			score=score+5;
-			foodOnBoardUpdate--;
+			
 		}else if(magic50.lastItem==12){
 			score=score+15;
-			foodOnBoardUpdate--;
+			
 		}else if(magic50.lastItem==13){
 			score=score+25;
-			foodOnBoardUpdate--;
+			
 		}
 		magic50=undefined;
 	}
 	if(board[shape.i][shape.j] == 60){
-		//PILL !!!!!!!!!!!
-		//new
-		score=score+1;
+		pill1.canDraw=false;
+		chompMusic.play();
+		if(numOfLives<5){
+			numOfLives++;
+			$("#life"+numOfLives+"").css('opacity', 1); // show
+		}
 	}
 	board[shape.i][shape.j] = 2;  //!! #
 	var currentTime = new Date();
@@ -577,26 +577,30 @@ function UpdatePosition() {
 			pac_color = "green";
 	}
 
-
-	UpdatePositionGhost();
+	if(magicDrawerCount % 3 == 0 ){ //!!
+		UpdatePositionGhost();
+	}
+	
 	
 	if(magic50 !=undefined && magicDrawerCount%5==0){
 		UpdateMagic50Position();
 	}
 	
-	if(magicDrawerCount%5==0){
-		if(pill1 !=undefined){
+	if(magicDrawerCount%15==0){
+		if(pill1.canDraw){
 			board[pill1.i][pill1.j]=0;
-			pill1=undefined;
+			pill1.canDraw=false;
 		}
 		else{
-			pill1=new Object();
-			var empty= findRandomEmptyCell(board);
-			pill1.i=emptyCell[0];
-			pill1.j=emptyCell[1];  
-			board[emptyCell[0]][emptyCell[1]] = 60;
+			var randomNumber= Math.floor(Math.random() * 3);
+			if(randomNumber==1){
+				pill1.canDraw=true;
+				var empty= findRandomEmptyCell(board);
+				pill1.i=empty[0];
+				pill1.j=empty[1];  
+				board[empty[0]][empty[1]] = 60;
+			}
 		}
-		UpdateMagic50Position();
 	}
 	
 	Draw();
@@ -612,7 +616,7 @@ function pacmanDies(){
 	for(var i=0;i<numofGhost;i++){
 		board[ghostArray[i].x][ghostArray[i].y] = ghostArray[i].lastItem; // put last object: lastMoveCellG1
 	}
-	//board[shape.i][shape.j]=0;
+	board[shape.i][shape.j]=0;
 	var indexes= findRandomEmptyCell(board);
 	shape.i = indexes[0];
 	shape.j = indexes[1];
@@ -620,5 +624,17 @@ function pacmanDies(){
 	putGhostsOnBord();
 	Draw();
 	gameBackroundSong.play();
-	interval = setInterval(UpdatePosition, 180);
+	interval = setInterval(UpdatePosition, 120);
+}
+
+function getNumOfFoodInBoard(){
+	var numofFood=0;
+	for(var n=0;n<12;n++){
+		for(var m=0;m<12;m++){
+			if(board[n][m]==11 || board[n][m]==12 || board[n][m]==13){
+				numofFood++;
+			}
+		}
+	}
+	return numofFood;
 }

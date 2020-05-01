@@ -1,9 +1,9 @@
 #menu{
-    padding: 5px;
     text-align: center;
     background: #1abc9c;
     color: white;
-    font-size: 30px;
+	font-size: 30px;
+	height: 50px;
 }
 
 
@@ -21,7 +21,7 @@ nav li{
 	display: inline-block;
 	margin-left: 20px;
 	margin-right: 20px;
-	padding-top: 25px;
+	padding-top: 5px;
 }
 
 nav a{
@@ -44,3 +44,25 @@ nav a:hover{
 	display:inline;
 	padding: 5px;
 }
+
+#footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: rgb(91, 151, 101);
+	color: white;
+	text-align: center;
+	height: 30px;
+  }
+
+  #built
+  {
+	display:inline;
+  }
+
+  #canvas{
+	  padding: 100 px;
+	  border: grey;
+	  border-style: solid;
+  }
