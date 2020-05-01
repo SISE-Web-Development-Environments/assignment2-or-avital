@@ -292,9 +292,36 @@
 				
 			
 			</div>
-		<div id="game">
-			<canvas id="canvas" height="550" width="550"></canvas>
-		</div>
+			<div id="gameBoard">
+				<div id="game">
+				<canvas id="canvas" height="480" width="480"></canvas>
+				</div>
+				<div id="settingsInGame">
+					<br>
+					<br>
+					Right Key: <span id="rcontrol" name="rk" ></span>
+					<br>
+					Left Key: <span id="lcontrol"></span>
+					<br>
+					Up Key: <span id="ucontrol" name="rk" ></span>
+					<br>
+					Down Key: <span id="dcontrol"></span>
+					<br>
+					Number of Balls in Game: <span id="ballLabel"></span>
+					<br>
+					Total Game Time In Seconds: <span id="timeLabel"></span>
+					<br>
+					Number Of Ghosts : <span id="ghostLabel"></span>
+					<br>
+					5 Point Color : <span class="dot" id="5colorCircle"></span>
+					<br>
+					15 Point Color : <span class="dot" id="15colorCircle"></span>
+					<br>
+					25 Point Color : <span class="dot" id="25colorCircle"></span>
+
+				</div>
+			</div>
+		
 		<div id="ghostImage"> 
 			<img id="ghost" width="220" height="277" src="ghost1.PNG" alt="The ghost pacman" style="display: none;">
 		 </div>
@@ -320,6 +347,6 @@
 				<p>Built By: Avital & Or</p>
 			</div>
 			</div>
-		  </footer>
+		</footer>
 	</body>
 </html>

@@ -47,13 +47,11 @@ nav a:hover{
 
 #footer {
 	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	background-color: rgb(91, 151, 101);
-	color: white;
-	text-align: center;
-	height: 30px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height:40px;
+    background:#ccc;
   }
 
   #built
@@ -62,7 +60,36 @@ nav a:hover{
   }
 
   #canvas{
-	  padding: 100 px;
 	  border: grey;
 	  border-style: solid;
+	  
   }
+
+  body{
+	margin:0;
+  	padding:0;
+  }
+
+  #gameBoard{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr); /* or simply "1fr 1fr;" */
+	grid-column-gap: 10px;
+  }
+
+  #game,#settingsInGame{
+	text-align: center;
+  }
+
+  #settingsInGame{
+	font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	font-size: 18px;
+  }
+
+  .dot {
+	height: 20px;
+	width: 20px;
+	background-color: blue;
+	border-radius: 50%;
+	display: inline-block;
+  }
+

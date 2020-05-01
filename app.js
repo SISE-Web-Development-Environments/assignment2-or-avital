@@ -73,20 +73,8 @@ var pill1= new Object();
 
 
 function Start() { // setup -first drow 
-	/*board = [
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 4, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4],
-		[0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0],
-		[0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 4, 0, 0, 0],
-		[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	];*/
-	//context.rotate(Math.PI/2);
 	if(startgame){
+	UpdateSettingLabels();
 	score = 0;
 	pac_color = "yellow";
 	var cnt = 100;
@@ -271,16 +259,16 @@ function Draw() {
 	for (var i = 0; i < 12; i++) {
 		for (var j = 0; j < 12; j++) {
 			var center = new Object();
-			center.x = i * 45 + 22.5;
-			center.y = j * 45 + 22.5;
+			center.x = i * 40 + 20;
+			center.y = j * 40 + 20;
 			if (board[i][j]==2) { //if is  #
 				context.beginPath();
-				context.arc(center.x, center.y, 22.5, (Math.PI*face.x), (Math.PI*face.y)); // half circle
+				context.arc(center.x, center.y, 20, (Math.PI*face.x), (Math.PI*face.y)); // half circle
 				context.lineTo(center.x, center.y);
 				context.fillStyle = pac_color; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x + 10, center.y - 13, 5, 0, 2 * Math.PI); // circle
+				context.arc(center.x + 7, center.y - 10, 4, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
 			}
@@ -290,22 +278,22 @@ function Draw() {
 			// } 
 			else if (board[i][j] == 11) { //if is food of 5 points
 				context.beginPath();
-				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
 				context.fillStyle = color5point; //color
 				context.fill();
 			} else if (board[i][j] == 4) { // if is wall 
 				context.beginPath();
-				context.rect(center.x - 22.5, center.y - 22.5, 45, 45);
+				context.rect(center.x - 20, center.y - 20, 40, 40);
 				context.fillStyle = "grey"; //color
 				context.fill();
 			} else if (board[i][j] == 12) { //if is red food - food of 15 points
 				context.beginPath();
-				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
 				context.fillStyle = color10point; //color
 				context.fill();
 			} else if (board[i][j] == 13) { //if is food of 25 points - blue
 				context.beginPath();
-				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
 				context.fillStyle = color15point; //color
 				context.fill();
 			}
@@ -314,17 +302,17 @@ function Draw() {
 	//drow ghosts
 	var img=document.getElementById("ghost");
 	for(var k=0;k<numofGhost;k++){
-		context.drawImage(img, ghostArray[k].x*45, ghostArray[k].y*45,45,45);
+		context.drawImage(img, ghostArray[k].x*40, ghostArray[k].y*40,40,40);
 	}
 	//draw cherry
 	if(magic50 !=undefined){
 	var appleImg= document.getElementById("apple");
-	context.drawImage(appleImg, magic50.i*45, magic50.j*45,45,45);
+	context.drawImage(appleImg, magic50.i*40, magic50.j*40,40,40);
 	}
 	//draw pill
 	if(pill1.canDraw){
 		var pillImg= document.getElementById("pill");
-		context.drawImage(pillImg, pill1.i*45, pill1.j*45,45,45);
+		context.drawImage(pillImg, pill1.i*40, pill1.j*40,40,40);
 	}
 }
 
@@ -637,4 +625,23 @@ function getNumOfFoodInBoard(){
 		}
 	}
 	return numofFood;
+}
+
+function UpdateSettingLabels(){
+	document.getElementById("rcontrol").innerHTML =document.getElementById("rk").innerHTML;
+	document.getElementById("lcontrol").innerHTML =document.getElementById("lk").innerHTML;
+	document.getElementById("ucontrol").innerHTML =document.getElementById("uk").innerHTML;
+	document.getElementById("dcontrol").innerHTML =document.getElementById("dk").innerHTML;
+
+	document.getElementById("ballLabel").innerHTML=numOfFoffInBoard;
+	document.getElementById("timeLabel").innerHTML=maxTimeForGame;
+	document.getElementById("ghostLabel").innerHTML=numofGhost;
+
+	document.getElementById("5colorCircle").style.backgroundColor=color5point;
+	document.getElementById("15colorCircle").style.backgroundColor=color10point;
+	document.getElementById("25colorCircle").style.backgroundColor=color15point;
+	
+
+
+
 }
