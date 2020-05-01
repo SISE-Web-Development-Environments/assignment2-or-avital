@@ -58,8 +58,9 @@ $(function() {
       submitHandler: function(form) {
         var username = document.getElementById("username").value;
 		    if (userDB[username] == undefined) {
-			  var password = document.getElementById("password").value;
-        document.getElementById("usernameLabel").innerHTML=username;
+            var password = document.getElementById("password").value;
+            userDB[username]=password;
+            document.getElementById("usernameLabel").innerHTML=username;
         $("#signInOK").modal({
           escapeClose: false,
           clickClose: false,

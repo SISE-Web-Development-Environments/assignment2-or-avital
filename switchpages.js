@@ -20,9 +20,9 @@ function clickToSettings(){
 	$.modal.close();
 }
 
-function goToSettingsFromSignIn(){
+function goToLogInFromSignIn(){
     $("#SignInPage").hide();
-    $("#Settings").show();
+    $("#LogInPage").show();
     $.modal.close();
   }
 
@@ -33,6 +33,11 @@ function goToSettingsFromSignIn(){
 	$("#gamePage").hide();
 	$("#Settings").hide();
 	$.modal.close();
+	if(interval !=undefined){
+		window.clearInterval(interval);
+	}
+	gameBackroundSong.pause();
+	gameBackroundSong.currentTime = 0;
  }
 
  function menuToSignIn(){
@@ -42,6 +47,11 @@ function goToSettingsFromSignIn(){
 	$("#gamePage").hide();
 	$("#Settings").hide();
 	$.modal.close();
+	if(interval !=undefined){
+		window.clearInterval(interval);
+	}
+	gameBackroundSong.pause();
+	gameBackroundSong.currentTime = 0;
  }
 
  function menuToLogIn(){
@@ -51,14 +61,33 @@ function goToSettingsFromSignIn(){
 	$("#gamePage").hide();
 	$("#Settings").hide();
 	$.modal.close();
+	if(interval !=undefined){
+		window.clearInterval(interval);
+	}
+	gameBackroundSong.pause();
+	gameBackroundSong.currentTime = 0;
  }
 
 function menuToAbout(){
 	$("#AboutPage").modal();
+	if(interval !=undefined){
+		window.clearInterval(interval);
+	}
+	gameBackroundSong.pause();
+	gameBackroundSong.currentTime = 0;
 }
 
 function closeModal(){
 	$.modal.close();
+}
+
+function closeAbout(){
+	$.modal.close();
+	if(startgame){
+		interval = setInterval(UpdatePosition, 120);
+		gameBackroundSong.play();
+
+	}
 }
 
 function StartGame(){
@@ -67,6 +96,19 @@ function StartGame(){
 	$.modal.close();
 	startgame=true;
 	Start();
+}
+
+function openNewGameModal(){
+	if(interval != undefined){
+		window.clearInterval(interval);
+	}
+	gameBackroundSong.pause();
+	gameBackroundSong.currentTime = 0;
+	$("#newGame").modal({
+		escapeClose: false,
+		clickClose: false,
+		showClose: false
+	  });
 }
 
 

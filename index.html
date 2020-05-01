@@ -165,8 +165,8 @@
 			
 			  </form>
 			  <div id="signInOK" class="modal">
-				<p>You sucssesfuly signed in!</p>
-				<input type="button" name="gotoSettingsFromSignIn" id="gotoSettingsFromSignIn" value="Go To Settings!" onclick="goToSettingsFromSignIn()"/>
+				<p>You sucssesfuly signed in! Now you can Log in to the game</p>
+				<input type="button" name="gotoSettingsFromSignIn" id="gotoSettingsFromSignIn" value="Go To Settings!" onclick="goToLogInFromSignIn()"/>
 			</div>
 			<div id="signInNotOK" class="modal">
 				<p>There is already a user with the same username, Please try again</p>
@@ -180,10 +180,10 @@
 			<br>
 			<br>
 			<label for="usernameLogIn">UserName</label>
-			<input type="usernameLogIn" name="usernameLogIn" id="usernameLogIn"/>
+			<input type="username" name="usernameLogIn" id="usernameLogIn"/>
 			<br>
 			<label for="passwordLogIn">Password</label>
-			<input type="passwordLogIn" name="passwordLogIn" id="passwordLogIn"/>
+			<input type="password" name="passwordLogIn" id="passwordLogIn"/>
 
 			<input id="loginButton" type="button" value="Log In" onclick="checkUser()"/>
 		
@@ -264,7 +264,7 @@
 		</div>
 		<div id="AboutPage" class="modal">
 			<p>Bla bla bla</p>
-			<input type="button" name="closeAbout" id="closeAbout" value="Close" onclick="closeModal()"/>
+			<input type="button" name="closeAbout" id="closeAbout" value="Close" onclick="closeAbout()"/>
 		</div>
 
 		<div id="gamePage" style="display: none;" >
@@ -318,7 +318,12 @@
 					15 Point Color : <span class="dot" id="15colorCircle"></span>
 					<br>
 					25 Point Color : <span class="dot" id="25colorCircle"></span>
-
+					<br><br>
+					<input type="button" name="startnewGame" id="startnewGame" value="Start New Game" onclick="openNewGameModal()"/>
+					<div id="newGame" class="modal">
+						<p>Let's Start Playing!</p>
+						<input type="button" name="newGame" id="newGame" value="New Game" onclick="StartNewGame()"/>
+					</div>
 				</div>
 			</div>
 		
@@ -341,7 +346,16 @@
 			<input type="button" name="keepPlaying" id="keepPlaying" value="Keep Playing" onclick="pacmanDies()"/>
 		</div>
 		<div id="endOfGameNoLives" class="modal">
-			<p>Loser!!</p>
+			<p id="endofgamepoints"></p>
+		</div>
+		<div id="timeUplessthan100" class="modal">
+			<p id="lessthan100"></p>
+		</div>
+		<div id="winnerMoreThan100Points" class="modal">
+			<p id="morethan100"></p>
+		</div>
+		<div id="timeUpMorethan100" class="modal">
+			<p id="morethan100timeup"></p>
 		</div>
 		</div>
 		<footer>
