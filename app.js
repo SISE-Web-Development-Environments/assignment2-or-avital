@@ -58,7 +58,9 @@ $(document).ready(function() {
 	context = canvas.getContext("2d");
 	
 	//var cellSize = canvas.height/10;
+	context.rotate(Math.PI/2);
 });
+
 
 var face=new Object(); // fce of pacman move with direction
 face.y=1.85;
@@ -193,7 +195,7 @@ function Start() { // setup -first drow
 	   
 
 	gameBackroundSong.play();
-	interval = setInterval(UpdatePosition, 120); // get from user
+	interval = setInterval(UpdatePosition, 180); // 180
 	//interval = setInterval(intervalFancs, 120); 
 }
 }
@@ -214,31 +216,36 @@ function findRandomEmptyCell(board) {
 }
 
 function putGhostsOnBord(){
+	var maxLen=board[0].length-1;
 	for(var v=0;v<numofGhost;v++){
 		ghostArray[v]=new Object();
 		if(v==0){
-			lastMoveCellG1=board[0][0]; // ????????????
+			//lastMoveCellG1`=board[0][0]; // ????????????
 			ghostArray[v].lastItem=board[0][0];
+			ghostArray[v].lastMove=0;
 			board[0][0]= 3;
 			ghostArray[v].x=0;
 			ghostArray[v].y=0;
 		}else if(v==1){
-			ghostArray[v].lastItem=board[0][9];
-			board[0][9]=3;
+			ghostArray[v].lastItem=board[0][maxLen];
+			ghostArray[v].lastMove=0;
+			board[0][maxLen]=3;
 			ghostArray[v].x=0;
-			ghostArray[v].y=9;
+			ghostArray[v].y=maxLen;
 		}
 		else if(v==2){
-			ghostArray[v].lastItem=board[9][0];
-			board[9][0]=3;
-			ghostArray[v].x=9;
+			ghostArray[v].lastItem=board[maxLen][0];
+			ghostArray[v].lastMove=0;
+			board[maxLen][0]=3;
+			ghostArray[v].x=maxLen;
 			ghostArray[v].y=0;
 		}
 		else if(v==3){
-			ghostArray[v].lastItem=board[9][9];
-			board[9][9]=3;
-			ghostArray[v].x=9;
-			ghostArray[v].y=9;
+			ghostArray[v].lastItem=board[maxLen][maxLen];
+			ghostArray[v].lastMove=0;
+			board[maxLen][maxLen]=3;
+			ghostArray[v].x=maxLen;
+			ghostArray[v].y=maxLen;
 		}
 	}
 	
@@ -331,43 +338,50 @@ function bestMoveOfGhost(){
 		var Ysub=Math.abs(shape.j- ghostArray[q].y);
 		var Xsub= Math.abs(shape.i-ghostArray[q].x);
 		//var angle=Math.atan(opposite / adjacent);
+
+
 		
 		 // down
 		if (ghostArray[q].y < 11 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 ) { // && ghostArray[q].prevMove != "left"
 				var rightYCalc=Math.abs(shape.j-(ghostArray[q].y+1));	
-				var right= Xsub+rightYCalc;
-				if(right<minDistance){
-					minDistance=right;
+				var down= Xsub+rightYCalc;
+				if(down<minDistance && ghostArray[q].lastMove!=7 ){
+					minDistance=down;
+					ghostArray[q].lastMove=ghostArray[q].bestMove;
 					currBestMove=6;
 					//isChanges = true
 				}	
+			
 			}
 		// up
-		else if(ghostArray[q].y > 0 && board[ghostArray[q].x][ghostArray[q].y - 1] != 4 ){
+		if(ghostArray[q].y > 0 && board[ghostArray[q].x][ghostArray[q].y - 1] != 4 ){
 			var leftYCalc=Math.abs(shape.j-(ghostArray[q].y-1));
-			var left=Xsub+leftYCalc;
-			if(left<minDistance){
-				minDistance=left;
+			var up=Xsub+leftYCalc;
+			if(up<minDistance&& ghostArray[q].lastMove!=6){
+				minDistance=up;
+				ghostArray[q].lastMove=ghostArray[q].bestMove;
 				currBestMove=7;
 				//isChanges = true
 			}	
 		}
-		// left ? 
-		else if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4  ){
+		// left  
+		if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4){
 			var upXCalc=Math.abs(shape.i-(ghostArray[q].x-1));
-			var up=Ysub+upXCalc;
-			if(up<minDistance){
-				minDistance=up;
+			var left=Ysub+upXCalc;
+			if(left<minDistance && ghostArray[q].lastMove!=9){
+				minDistance=left;
+				ghostArray[q].lastMove=ghostArray[q].bestMove;
 				currBestMove=8;
 				//isChanges = true
 			}
 		}
 		// right ? 
-		else if(ghostArray[q].x < 11 && board[ghostArray[q].x + 1][ghostArray[q].y] != 4 ){
+		if(ghostArray[q].x < 9 && board[ghostArray[q].x + 1][ghostArray[q].y] != 4){
 			var downXCala=Math.abs(shape.i-(ghostArray[q].x+1));
-			var down=Ysub+downXCala;
-			if(down<minDistance){
-				minDistance=down;
+			var right=Ysub+downXCala;
+			if(right<minDistance && ghostArray[q].lastMove!=8){
+				minDistance=right;
+				ghostArray[q].lastMove=ghostArray[q].bestMove;
 				currBestMove=9;
 				//isChanges = true
 			}
@@ -610,7 +624,7 @@ function pacmanDies(){
 	putGhostsOnBord();
 	Draw();
 	gameBackroundSong.play();
-	interval = setInterval(UpdatePosition, 120);
+	interval = setInterval(UpdatePosition, 180);
 }
 
 function getNumOfFoodInBoard(){
