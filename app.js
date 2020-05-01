@@ -1,19 +1,6 @@
 var context;
 var shape = new Object();
-var board = [
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0],
-	[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0],
-	[0, 4, 4, 0, 0, 0, 0, 0, 4, 4, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
+var board ;
 var score;
 var pac_color;
 var start_time;
@@ -50,6 +37,8 @@ var chompMusic= new Audio("songs/chomp.mp3");
 chompMusic.loop=false;
 var magic50Music= new Audio("songs/50 points.mp3");
 magic50Music.loop=false;
+var timeupMusic= new Audio("songs/tada.mp3");
+timeupMusic.loop=false;
 
 
 $(document).ready(function() {
@@ -66,14 +55,29 @@ face.x=0.15;
 
 var ghost=new Object();
 
-var magic50= new Object();
+var magic50;
 
-var pill1= new Object();
-
+var pill1;
 
 
 function Start() { // setup -first drow 
+	magic50=new Object();
+	pill1=new Object();
 	if(startgame){
+		board = [
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0],
+			[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0],
+			[0, 4, 4, 0, 0, 0, 0, 0, 4, 4, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		];
 	UpdateSettingLabels();
 	score = 0;
 	pac_color = "yellow";
@@ -451,14 +455,32 @@ function UpdateMagic50Position(){
 function UpdatePosition() { 
 	magicDrawerCount++;
 	board[shape.i][shape.j] = 0;
+	var currentTime = new Date();
+	time_elapsed = (currentTime - start_time) / 1000;
 	var x = GetKeyPressed(); // last move of user
 	var pacmanEatenByGhost=false;
+	if(time_elapsed>= maxTimeForGame){
+		gameBackroundSong.pause();
+		timeupMusic.play();
+		window.clearInterval(interval);
+		startgame=false;
+		if(score<100){
+			document.getElementById("lessthan100").innerHTML= "You are better than "+score+" points!";
+			$("#timeUplessthan100").modal();
+		}
+		else{
+			document.getElementById("morethan100timeup").innerHTML= "Times up!!! You have "+score+" points!!";
+			$("#timeUpMorethan100").modal();
+		}
+	}
 	foodOnBoardUpdate=getNumOfFoodInBoard();
-	if (foodOnBoardUpdate == 0) { // end game - needs to be : no food in game
+	if (foodOnBoardUpdate == 0) { 
+		startgame=false;
 		gameBackroundSong.pause();
 		victoryMusic.play();
 		window.clearInterval(interval);
-		window.alert("Game completed");
+		document.getElementById("morethan100").innerHTML= "Winner!!!!!! You have "+score+" points!!";
+		$("#winnerMoreThan100Points").modal();
 
 	}
 	for(var index=0;index<numofGhost;index++){
@@ -474,7 +496,9 @@ function UpdatePosition() {
 		gameBackroundSong.pause();
 		gameBackroundSong.currentTime = 0;
 		if(numOfLives==0){// end of final game
+			startgame=false;
 			totalDeathMusic.play();
+			document.getElementById("endofgamepoints").innerHTML= "Loser!!!!!! You have "+score+" points";
 			$("#endOfGameNoLives").modal();
 		}
 		else{//start new game in curr
@@ -558,11 +582,10 @@ function UpdatePosition() {
 		}
 	}
 	board[shape.i][shape.j] = 2;  //!! #
-	var currentTime = new Date();
-	time_elapsed = (currentTime - start_time) / 1000;
 	
-	if (score >= 20 && time_elapsed <= 10) { //???
-			pac_color = "green";
+	
+	if (score >= 50 && time_elapsed <= 10) { //???
+		pac_color = "#00FF00";
 	}
 
 	if(magicDrawerCount % 3 == 0 ){ //!!
@@ -615,6 +638,7 @@ function pacmanDies(){
 	interval = setInterval(UpdatePosition, 120);
 }
 
+
 function getNumOfFoodInBoard(){
 	var numofFood=0;
 	for(var n=0;n<12;n++){
@@ -644,4 +668,31 @@ function UpdateSettingLabels(){
 
 
 
+}
+
+
+function StartNewGame(){
+	$.modal.close();
+	startgame=true;
+	numOfLives=5;
+	$("#life1").css('opacity', 1); // show all
+	$("#life2").css('opacity', 1); // show all
+	$("#life3").css('opacity', 1); // show all
+	$("#life4").css('opacity', 1); // show all
+	$("#life5").css('opacity', 1); // show all
+	removeEventListener(
+		"keydown",
+		function(e) {
+			keysDown[e.keyCode] = true;
+		},
+		false
+	);
+	removeEventListener(
+		"keyup",
+		function(e) {
+			keysDown[e.keyCode] = false;
+		},
+		false
+	);
+	Start();
 }
