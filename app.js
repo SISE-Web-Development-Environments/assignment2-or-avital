@@ -285,7 +285,7 @@ function bestMoveOfGhost(){
 				//isChanges = true
 			}
 		}
-		
+		var x;
 		ghostArray[q].bestMove=currBestMove;
 	}
 	return true; // calc witch durction is beter - up down left right
