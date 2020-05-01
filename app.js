@@ -32,7 +32,11 @@ totalDeathMusic.loop=false;
 var lifeLostMusic= new Audio("songs/pacman-lostlife.mp3");
 lifeLostMusic.loop=false;
 var victoryMusic= new Audio("songs/victory-song.mp3");
-lifeLostMusic.loop=false;
+victoryMusic.loop=false;
+var chompMusic= new Audio("songs/chomp.mp3");
+chompMusic.loop=false;
+var magic50Music= new Audio("songs/50 points.mp3");
+magic50Music.loop=false;
 
 
 $(document).ready(function() {
@@ -62,7 +66,6 @@ function Start() { // setup -first drow
 	var numof5points=Math.round(0.6*food_remain);
 	var numof15points= Math.round(0.3*food_remain);
 	var numof25points= food_remain-numof5points-numof15points;
-	foodOnBoardUpdate=numOfFoffInBoard;
 	var pacman_remain = 1; 
 	start_time = new Date();
 	shape.i = 1;
@@ -154,6 +157,7 @@ function Start() { // setup -first drow
 	emptyCell=findRandomEmptyCell(board);
 	pill1.i=emptyCell[0];
 	pill1.j=emptyCell[1];  
+	pill1.canDraw=true;
 	board[emptyCell[0]][emptyCell[1]] = 60;
 
 	keysDown = {};
@@ -172,6 +176,7 @@ function Start() { // setup -first drow
 		false
 	);
 	   
+	//for tests!!!!!!!!
 	var numof11=0;
 	for(var n=0;n<10;n++){
 		for(var m=0;m<10;m++){
@@ -321,7 +326,7 @@ function Draw() {
 	context.drawImage(appleImg, magic50.i*60, magic50.j*60,60,60);
 	}
 	//draw pill
-	if(pill1!= undefined){
+	if(pill1.canDraw){
 		var pillImg= document.getElementById("pill");
 		context.drawImage(pillImg, pill1.i*60, pill1.j*60,60,60);
 	}
@@ -457,6 +462,7 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed(); // last move of user
 	var pacmanEatenByGhost=false;
+	foodOnBoardUpdate=getNumOfFoodInBoard();
 	if (foodOnBoardUpdate == 0) { // end game - needs to be : no food in game
 		gameBackroundSong.pause();
 		victoryMusic.play();
@@ -527,34 +533,38 @@ function UpdatePosition() {
 
 	if (board[shape.i][shape.j] == 11) { // chek the type of food! update score
 			score=score+5;
-			foodOnBoardUpdate--;
+			
 	}
 		if(board[shape.i][shape.j] == 12){
 			score=score+15;
-			foodOnBoardUpdate--;
+			
 	}
 		if(board[shape.i][shape.j] == 13){
 			score=score+25;
-			foodOnBoardUpdate--;
+			
 	}
 	if(board[shape.i][shape.j] == 50){//eat magic 50
+		magic50Music.play();
 		score=score+50;
 		if(magic50.lastItem==11){
 			score=score+5;
-			foodOnBoardUpdate--;
+			
 		}else if(magic50.lastItem==12){
 			score=score+15;
-			foodOnBoardUpdate--;
+			
 		}else if(magic50.lastItem==13){
 			score=score+25;
-			foodOnBoardUpdate--;
+			
 		}
 		magic50=undefined;
 	}
 	if(board[shape.i][shape.j] == 60){
-		//PILL !!!!!!!!!!!
-		//new
-		score=score+1;
+		pill1.canDraw=false;
+		chompMusic.play();
+		if(numOfLives<5){
+			numOfLives++;
+			$("#life"+numOfLives+"").css('opacity', 1); // show
+		}
 	}
 	board[shape.i][shape.j] = 2;  //!! #
 	var currentTime = new Date();
@@ -571,19 +581,21 @@ function UpdatePosition() {
 		UpdateMagic50Position();
 	}
 	
-	if(magicDrawerCount%5==0){
-		if(pill1 !=undefined){
+	if(magicDrawerCount%15==0){
+		if(pill1.canDraw){
 			board[pill1.i][pill1.j]=0;
-			pill1=undefined;
+			pill1.canDraw=false;
 		}
 		else{
-			pill1=new Object();
-			var empty= findRandomEmptyCell(board);
-			pill1.i=emptyCell[0];
-			pill1.j=emptyCell[1];  
-			board[emptyCell[0]][emptyCell[1]] = 60;
+			var randomNumber= Math.floor(Math.random() * 3);
+			if(randomNumber==1){
+				pill1.canDraw=true;
+				var empty= findRandomEmptyCell(board);
+				pill1.i=empty[0];
+				pill1.j=empty[1];  
+				board[empty[0]][empty[1]] = 60;
+			}
 		}
-		UpdateMagic50Position();
 	}
 	
 	Draw();
@@ -599,7 +611,7 @@ function pacmanDies(){
 	for(var i=0;i<numofGhost;i++){
 		board[ghostArray[i].x][ghostArray[i].y] = ghostArray[i].lastItem; // put last object: lastMoveCellG1
 	}
-	//board[shape.i][shape.j]=0;
+	board[shape.i][shape.j]=0;
 	var indexes= findRandomEmptyCell(board);
 	shape.i = indexes[0];
 	shape.j = indexes[1];
@@ -608,4 +620,16 @@ function pacmanDies(){
 	Draw();
 	gameBackroundSong.play();
 	interval = setInterval(UpdatePosition, 120);
+}
+
+function getNumOfFoodInBoard(){
+	var numofFood=0;
+	for(var n=0;n<10;n++){
+		for(var m=0;m<10;m++){
+			if(board[n][m]==11 || board[n][m]==12 || board[n][m]==13){
+				numofFood++;
+			}
+		}
+	}
+	return numofFood;
 }
