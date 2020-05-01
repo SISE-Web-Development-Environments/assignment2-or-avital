@@ -50,6 +50,8 @@ var chompMusic= new Audio("songs/chomp.mp3");
 chompMusic.loop=false;
 var magic50Music= new Audio("songs/50 points.mp3");
 magic50Music.loop=false;
+var clockPillMusic= new Audio("songs/clockMusic.mp3"); //add music new
+clockPillMusic.loop=false;
 
 
 $(document).ready(function() {
@@ -69,6 +71,8 @@ var ghost=new Object();
 var magic50= new Object();
 
 var pill1= new Object();
+
+var clockPill= new Object();
 
 
 
@@ -162,6 +166,15 @@ function Start() { // setup -first drow
 	pill1.j=emptyCell[1];  
 	pill1.canDraw=true;
 	board[emptyCell[0]][emptyCell[1]] = 60;
+ 
+	// clock pill
+	emptyCell=findRandomEmptyCell(board);
+	clockPill.lastItem=board[emptyCell[0]][emptyCell[1]];
+	clockPill.i=emptyCell[0];
+	clockPill.j=emptyCell[1];  
+	board[emptyCell[0]][emptyCell[1]] = 7;
+
+
 
 	keysDown = {};
 	addEventListener(
@@ -304,7 +317,7 @@ function Draw() {
 	for(var k=0;k<numofGhost;k++){
 		context.drawImage(img, ghostArray[k].x*40, ghostArray[k].y*40,40,40);
 	}
-	//draw cherry
+	//draw apple
 	if(magic50 !=undefined){
 	var appleImg= document.getElementById("apple");
 	context.drawImage(appleImg, magic50.i*40, magic50.j*40,40,40);
@@ -314,6 +327,11 @@ function Draw() {
 		var pillImg= document.getElementById("pill");
 		context.drawImage(pillImg, pill1.i*40, pill1.j*40,40,40);
 	}
+	//draw clock
+	if(clockPill !=undefined){
+		var clockImg= document.getElementById("clock"); 
+		context.drawImage(clockImg, clockPill.i*40, clockPill.j*40,40,40);
+		}
 }
 
 function bestMoveOfGhost(){
@@ -557,6 +575,11 @@ function UpdatePosition() {
 			$("#life"+numOfLives+"").css('opacity', 1); // show
 		}
 	}
+	if(board[shape.i][shape.j] == 7){//eat clock pill 
+		clockPillMusic.play();
+		maxTimeForGame=time_elapsed+30; 
+		clockPill=undefined;
+	}
 	board[shape.i][shape.j] = 2;  //!! #
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
@@ -565,12 +588,12 @@ function UpdatePosition() {
 			pac_color = "green";
 	}
 
-	if(magicDrawerCount % 3 == 0 ){ //!!
+	if(magicDrawerCount % 3 == 0 ){ 
 		UpdatePositionGhost();
 	}
 	
 	
-	if(magic50 !=undefined && magicDrawerCount%5==0){
+	if(magic50 !=undefined && magicDrawerCount%5==0){//#################
 		UpdateMagic50Position();
 	}
 	

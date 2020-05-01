@@ -10,3 +10,4 @@ numbers in arr:
 4=wall 
 50 = magic apple
 60=pill
+7=clock pill
