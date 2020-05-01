@@ -324,11 +324,11 @@ function bestMoveOfGhost(){
 		var Ysub=Math.abs(shape.j- ghostArray[q].y);
 		var Xsub= Math.abs(shape.i-ghostArray[q].x);
 		//var angle=Math.atan(opposite / adjacent);
-
+		var maxLenBoard=board[0].length-1; 
 
 		
 		 // down
-		if (ghostArray[q].y < 9 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 && board[ghostArray[q].x][ghostArray[q].y + 1] != 50 &&board[ghostArray[q].x][ghostArray[q].y + 1] != 60 ) { 
+		if (ghostArray[q].y < maxLenBoard && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 && board[ghostArray[q].x][ghostArray[q].y + 1] != 50 &&board[ghostArray[q].x][ghostArray[q].y + 1] != 60 ) { 
 				var rightYCalc=Math.abs(shape.j-(ghostArray[q].y+1));	
 				var down= Xsub+rightYCalc;
 				if(down<minDistance && ghostArray[q].lastMove!=7 ){
@@ -349,7 +349,7 @@ function bestMoveOfGhost(){
 				currBestMove=7;
 				//isChanges = true
 			}	
-		}
+		} 
 		// left  
 		if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4 && board[ghostArray[q].x - 1][ghostArray[q].y] != 50 && board[ghostArray[q].x - 1][ghostArray[q].y] != 60){
 			var upXCalc=Math.abs(shape.i-(ghostArray[q].x-1));
@@ -362,7 +362,7 @@ function bestMoveOfGhost(){
 			}
 		}
 		// right ? 
-		if(ghostArray[q].x < 9 && board[ghostArray[q].x + 1][ghostArray[q].y] != 4 && board[ghostArray[q].x + 1][ghostArray[q].y] != 50 && board[ghostArray[q].x + 1][ghostArray[q].y] != 60){
+		if(ghostArray[q].x < maxLenBoard && board[ghostArray[q].x + 1][ghostArray[q].y] != 4 && board[ghostArray[q].x + 1][ghostArray[q].y] != 50 && board[ghostArray[q].x + 1][ghostArray[q].y] != 60){
 			var downXCala=Math.abs(shape.i-(ghostArray[q].x+1));
 			var right=Ysub+downXCala;
 			if(right<minDistance && ghostArray[q].lastMove!=8){
