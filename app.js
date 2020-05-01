@@ -1,6 +1,21 @@
 var context;
 var shape = new Object();
-var board;
+var board = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0],
+	[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0],
+	[0, 4, 4, 0, 0, 0, 0, 0, 4, 4, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+	
+];
 var score;
 var pac_color;
 var start_time;
@@ -41,6 +56,7 @@ magic50Music.loop=false;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
+	
 	//var cellSize = canvas.height/10;
 });
 
@@ -57,8 +73,20 @@ var pill1= new Object();
 
 
 function Start() { // setup -first drow 
+	/*board = [
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 4, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4],
+		[0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 4, 0, 0, 0],
+		[0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	];*/
+	//context.rotate(Math.PI/2);
 	if(startgame){
-	board = new Array();
 	score = 0;
 	pac_color = "yellow";
 	var cnt = 100;
@@ -70,24 +98,11 @@ function Start() { // setup -first drow
 	start_time = new Date();
 	shape.i = 1;
 	shape.j = 1;
-	for (var i = 0; i < 10; i++) {
-		board[i] = new Array();
-		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
-		for (var j = 0; j < 10; j++) {
-			if (
-				(i == 5 && j == 0) || (i == 9 && j == 0) || (i == 8 && j == 9) ||(i == 3 && j == 3) ||(i == 3 && j == 7) ||
-				(i == 6 && j == 1) || (i == 9 && j == 1) || (i == 9 && j == 8) ||(i == 6 && j == 5) ||(i == 3 && j == 6) ||
-				(i == 1 && j == 0) || (i == 8 && j == 0) || (i == 3 && j == 2) ||(i == 6 && j == 6) ||(i == 2 && j == 6) ||
-				(i == 0 && j == 9) || (i == 1 && j == 9) || (i == 2 && j == 2) ||(i == 7 && j == 5) ||(i == 6 && j == 2) ||
-				(i == 0 && j == 8) || (i == 9 && j == 9) || (i == 2 && j == 3) ||(i == 7 && j == 6) ||(i == 7 && j == 2)
-			) {
-				board[i][j] = 4; // obstical wall
-			} else { 
-
-				//check place of ghost - (i == 0 && j == 0)!!!!!!!
+	for (var i = 0; i < 12; i++) {
+		for (var j = 0; j < 12; j++) {
+			 if(board[i][j]==0) { 
 				var randomNum = Math.random(); 
-				if (randomNum <= (1.0 * food_remain) / cnt) { // if buger then x- we will drow food
-					
+				if (randomNum <= (1.0 * food_remain) / cnt) { // if bigger then x- we will drow food
 					var randomNum2 = Math.random(); 
 					if(randomNum2>=0 && randomNum2<0.6 && numof5points>0){ //  60% of food of 5 points
 						board[i][j] = 11;
@@ -176,31 +191,7 @@ function Start() { // setup -first drow
 		false
 	);
 	   
-	//for tests!!!!!!!!
-	var numof11=0;
-	for(var n=0;n<10;n++){
-		for(var m=0;m<10;m++){
-			if(board[n][m]==11 ){
-				numof11++;
-			}
-		}
-	}
-	var numof12=0;
-	for(var n=0;n<10;n++){
-		for(var m=0;m<10;m++){
-			if(board[n][m]==12 ){
-				numof12++;
-			}
-		}
-	}
-	var numof13=0;
-	for(var n=0;n<10;n++){
-		for(var m=0;m<10;m++){
-			if(board[n][m]==13 ){
-				numof13++;
-			}
-		}
-	}
+
 	gameBackroundSong.play();
 	interval = setInterval(UpdatePosition, 120); // get from user
 	//interval = setInterval(intervalFancs, 120); 
@@ -213,11 +204,11 @@ function intervalFancs(){
 }
 
 function findRandomEmptyCell(board) {
-	var i = Math.floor(Math.random() * 9 + 1);
-	var j = Math.floor(Math.random() * 9 + 1);
+	var i = Math.floor(Math.random() * 11 + 1);
+	var j = Math.floor(Math.random() * 11 + 1);
 	while (board[i][j] != 0) {
-		i = Math.floor(Math.random() * 9 + 1);
-		j = Math.floor(Math.random() * 9 + 1);
+		i = Math.floor(Math.random() * 11 + 1);
+		j = Math.floor(Math.random() * 11 + 1);
 	}
 	return [i, j];
 }
@@ -272,19 +263,19 @@ function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	for (var i = 0; i < 10; i++) {
-		for (var j = 0; j < 10; j++) {
+	for (var i = 0; i < 12; i++) {
+		for (var j = 0; j < 12; j++) {
 			var center = new Object();
-			center.x = i * 60 + 30;
-			center.y = j * 60 + 30;
+			center.x = i * 45 + 22.5;
+			center.y = j * 45 + 22.5;
 			if (board[i][j]==2) { //if is  #
 				context.beginPath();
-				context.arc(center.x, center.y, 30, (Math.PI*face.x), (Math.PI*face.y)); // half circle
+				context.arc(center.x, center.y, 22.5, (Math.PI*face.x), (Math.PI*face.y)); // half circle
 				context.lineTo(center.x, center.y);
 				context.fillStyle = pac_color; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x + 11, center.y - 15, 5, 0, 2 * Math.PI); // circle
+				context.arc(center.x + 10, center.y - 13, 5, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
 			}
@@ -294,22 +285,22 @@ function Draw() {
 			// } 
 			else if (board[i][j] == 11) { //if is food of 5 points
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
 				context.fillStyle = color5point; //color
 				context.fill();
 			} else if (board[i][j] == 4) { // if is wall 
 				context.beginPath();
-				context.rect(center.x - 30, center.y - 30, 60, 60);
+				context.rect(center.x - 22.5, center.y - 22.5, 45, 45);
 				context.fillStyle = "grey"; //color
 				context.fill();
 			} else if (board[i][j] == 12) { //if is red food - food of 15 points
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
 				context.fillStyle = color10point; //color
 				context.fill();
 			} else if (board[i][j] == 13) { //if is food of 25 points - blue
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 11, 0, 2 * Math.PI); // circle
 				context.fillStyle = color15point; //color
 				context.fill();
 			}
@@ -318,17 +309,17 @@ function Draw() {
 	//drow ghosts
 	var img=document.getElementById("ghost");
 	for(var k=0;k<numofGhost;k++){
-		context.drawImage(img, ghostArray[k].x*60, ghostArray[k].y*60,60,60);
+		context.drawImage(img, ghostArray[k].x*45, ghostArray[k].y*45,45,45);
 	}
 	//draw cherry
 	if(magic50 !=undefined){
 	var appleImg= document.getElementById("apple");
-	context.drawImage(appleImg, magic50.i*60, magic50.j*60,60,60);
+	context.drawImage(appleImg, magic50.i*45, magic50.j*45,45,45);
 	}
 	//draw pill
 	if(pill1.canDraw){
 		var pillImg= document.getElementById("pill");
-		context.drawImage(pillImg, pill1.i*60, pill1.j*60,60,60);
+		context.drawImage(pillImg, pill1.i*45, pill1.j*45,45,45);
 	}
 }
 
@@ -342,7 +333,7 @@ function bestMoveOfGhost(){
 		//var angle=Math.atan(opposite / adjacent);
 		
 		 // down
-		if (ghostArray[q].y < 9 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 ) { // && ghostArray[q].prevMove != "left"
+		if (ghostArray[q].y < 11 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 ) { // && ghostArray[q].prevMove != "left"
 				var rightYCalc=Math.abs(shape.j-(ghostArray[q].y+1));	
 				var right= Xsub+rightYCalc;
 				if(right<minDistance){
@@ -362,7 +353,7 @@ function bestMoveOfGhost(){
 			}	
 		}
 		// left ? 
-		else if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4){
+		else if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4  ){
 			var upXCalc=Math.abs(shape.i-(ghostArray[q].x-1));
 			var up=Ysub+upXCalc;
 			if(up<minDistance){
@@ -372,7 +363,7 @@ function bestMoveOfGhost(){
 			}
 		}
 		// right ? 
-		else if(ghostArray[q].x < 9 && board[ghostArray[q].x + 1][ghostArray[q].y] != 4){
+		else if(ghostArray[q].x < 11 && board[ghostArray[q].x + 1][ghostArray[q].y] != 4 ){
 			var downXCala=Math.abs(shape.i-(ghostArray[q].x+1));
 			var down=Ysub+downXCala;
 			if(down<minDistance){
@@ -429,7 +420,7 @@ function UpdateMagic50Position(){
 			}
 		}
 		if (direction == 2) { // down
-			if (magic50.j < 9 && board[magic50.i][magic50.j + 1] != 4 && board[magic50.i][magic50.j + 1] != 3 && board[magic50.i][magic50.j + 1] != 2) {
+			if (magic50.j < 11 && board[magic50.i][magic50.j + 1] != 4 && board[magic50.i][magic50.j + 1] != 3 && board[magic50.i][magic50.j + 1] != 2) {
 			magic50.lastItem=board[magic50.i][magic50.j+1];
 			magic50.j++;
 			directiongood=true;
@@ -443,7 +434,7 @@ function UpdateMagic50Position(){
 		}
 	}
 	if (direction == 4) {//right
-		if (magic50.i < 9 && board[magic50.i + 1][magic50.j] != 4 && board[magic50.i + 1][magic50.j] != 3 && board[magic50.i + 1][magic50.j] != 2) {
+		if (magic50.i < 11 && board[magic50.i + 1][magic50.j] != 4 && board[magic50.i + 1][magic50.j] != 3 && board[magic50.i + 1][magic50.j] != 2) {
 			magic50.lastItem=board[magic50.i+1][magic50.j];
 			magic50.i++;
 			directiongood=true;
@@ -507,7 +498,7 @@ function UpdatePosition() {
 		}
 	}
 		if (x == 2) { // down
-			if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+			if (shape.j < 11 && board[shape.i][shape.j + 1] != 4) {
 			//faceDirection=22;//'pacmanDown';
 			face.y=2.3;
 			face.x=0.7; 
@@ -523,7 +514,7 @@ function UpdatePosition() {
 		}
 	}
 	if (x == 4) {//right
-		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+		if (shape.i < 11 && board[shape.i + 1][shape.j] != 4) {
 			//faceDirection=24;//'pacmanRight';
 			face.y=1.85;
 			face.x=0.15; 
@@ -624,8 +615,8 @@ function pacmanDies(){
 
 function getNumOfFoodInBoard(){
 	var numofFood=0;
-	for(var n=0;n<10;n++){
-		for(var m=0;m<10;m++){
+	for(var n=0;n<12;n++){
+		for(var m=0;m<12;m++){
 			if(board[n][m]==11 || board[n][m]==12 || board[n][m]==13){
 				numofFood++;
 			}
