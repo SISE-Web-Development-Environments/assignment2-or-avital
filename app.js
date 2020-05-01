@@ -21,8 +21,10 @@ var startgame=false;
 var temp;
 var ghostArray = [];
 
+
 $(document).ready(function() {
 	context = canvas.getContext("2d");
+	//var cellSize = canvas.height/10;
 });
 
 var face=new Object(); // fce of pacman move with direction
@@ -30,6 +32,7 @@ face.y=1.85;
 face.x=0.15;
 
 var ghost=new Object();
+
 
 
 function Start() { // setup -first drow 
@@ -231,8 +234,56 @@ function Draw() {
 }
 
 function bestMoveOfGhost(){
+	
 	for(var q=0;q<numofGhost;q++){
-		ghostArray[q].bestMove=2;
+		var minDistance =1.7976931348623157E+10308;//Infinity;
+		var currBestMove;
+		var Ysub=Math.abs(shape.j- ghostArray[q].y);
+		var Xsub= Math.abs(shape.i-ghostArray[q].x);
+		//var angle=Math.atan(opposite / adjacent);
+		
+		 // down
+		if (ghostArray[q].y < 9 && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 ) { // && ghostArray[q].prevMove != "left"
+				var rightYCalc=Math.abs(shape.j-(ghostArray[q].y+1));	
+				var right= Xsub+rightYCalc;
+				if(right<minDistance){
+					minDistance=right;
+					currBestMove=6;
+					//isChanges = true
+				}	
+			}
+		// up
+		else if(ghostArray[q].y > 0 && board[ghostArray[q].x][ghostArray[q].y - 1] != 4 ){
+			var leftYCalc=Math.abs(shape.j-(ghostArray[q].y-1));
+			var left=Xsub+leftYCalc;
+			if(left<minDistance){
+				minDistance=left;
+				currBestMove=7;
+				//isChanges = true
+			}	
+		}
+		// left ? 
+		else if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4){
+			var upXCalc=Math.abs(shape.i-(ghostArray[q].x-1));
+			var up=Ysub+upXCalc;
+			if(up<minDistance){
+				minDistance=up;
+				currBestMove=8;
+				//isChanges = true
+			}
+		}
+		// right ? 
+		else if(ghostArray[q].x < 9 && board[ghostArray[q].x + 1][ghostArray[q].y] != 4){
+			var downXCala=Math.abs(shape.i-(ghostArray[q].x+1));
+			var down=Ysub+downXCala;
+			if(down<minDistance){
+				minDistance=down;
+				currBestMove=9;
+				//isChanges = true
+			}
+		}
+		
+		ghostArray[q].bestMove=currBestMove;
 	}
 	return true; // calc witch durction is beter - up down left right
 	//if up is the best way -> return 1 , right->rturn 2
@@ -245,30 +296,22 @@ function UpdatePositionGhost() {
 	for(var w=0;w<numofGhost;w++){
 		board[ghostArray[w].x][ghostArray[w].y] = ghostArray[w].lastItem; // put last object: lastMoveCellG1
 		var ghostMove= ghostArray[w].bestMove;
-		if (ghostMove == 1) { // up 
-			if (ghostArray[w].y > 0 && board[ghostArray[w].x][ghostArray[w].y - 1] != 4) {
+		if (ghostMove == 7) { // (up on baord!!) (like pacman-in paint)
 				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y];
 				ghostArray[w].y=ghostArray[w].y-1;
 			}
-		}
-		 if (ghostMove == 2) { // down R
-			if (ghostArray[w].y < 9 && board[ghostArray[w].x][ghostArray[w].y + 1] != 4) {
+		if (ghostMove == 6) { //  (right on baord!!) (down like pacman-in paint)
 				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y + 1];
 				ghostArray[w].y=ghostArray[w].y+1;
 			}
-		}
-		if (ghostMove == 3) { //left
-			if (ghostArray[w].x > 0 && board[ghostArray[w].x - 1][ghostArray[w].y] != 4) {
+		if (ghostMove == 8) { //( on baord!!!) (left like pacman-on paint)
 				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y];
 				ghostArray[w].x=ghostArray[w].x-1;
 			}
-		}
-		if (ghostMove == 4) {//right
-			if (ghostArray[w].x < 9 && board[ghostArray[w].x + 1][ghostArray[w].y] != 4) {
+		if (ghostMove == 9) {//( on baord!!)  (right like pacmanon-on paint)
 				ghostArray[w].lastItem=board[ghostArray[w].x][ghostArray[w].y]; 
 				ghostArray[w].x=ghostArray[w].x+1;
 			}
-		}
 		board[ghostArray[w].x][ghostArray[w].y] = 3; 
 	}
 }
