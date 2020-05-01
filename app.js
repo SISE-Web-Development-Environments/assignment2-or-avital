@@ -19,6 +19,8 @@ var color10point="yellow";
 var color15point="blue";
 var startgame=false;
 var temp;
+var numOfLives=5;
+var foodOnBoardUpdate;
 var ghostArray = [];
 
 
@@ -42,6 +44,7 @@ function Start() { // setup -first drow
 	pac_color = "yellow";
 	var cnt = 100;
 	var food_remain = numOfFoffInBoard; //num of points of food 
+	foodOnBoardUpdate=numOfFoffInBoard;
 	var pacman_remain = 1; 
 	start_time = new Date();
 	shape.i = 1;
@@ -354,14 +357,18 @@ function UpdatePosition() {
 		}
 	}
 	UpdatePositionGhost();
+	
 	if (board[shape.i][shape.j] == 11) { // chek the type of food! update score
-		score++;
+		score=score+5;
+		foodOnBoardUpdate--;
 	}
 	if(board[shape.i][shape.j] == 12){
 		score=score+15;
+		foodOnBoardUpdate--;
 	}
 	if(board[shape.i][shape.j] == 13){
 		score=score+25;
+		foodOnBoardUpdate--;
 	}
 
 	board[shape.i][shape.j] = 2;  //!! #
@@ -370,7 +377,7 @@ function UpdatePosition() {
 	if (score >= 20 && time_elapsed <= 10) { //???
 		pac_color = "green";
 	}
-	if (score == 50) { // end game - needs to be : no food in game
+	if (foodOnBoardUpdate == 0) { // end game - needs to be : no food in game
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	// }else if(time_elapsed>=maxTimeForGame){
