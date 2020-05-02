@@ -201,31 +201,32 @@
 		<div id="Settings" style="display: none;" >
 			<h1>Game Settings</h1>
 			<form id="setting-form"  name="registration">
-			<h2>Key controll settings</h2>
+				<div id="controlls">
+					<h2>Key controll settings</h2>
 			<input type="button" name="rightkey" id="rightkey" value="choose right key" onclick="rightButtonclick()"/>
-			<span id="errorR" style="display: none;">red! all keys should be different</span>
+			<span class="error" id="errorR" style="display: none;">red! all keys should be different</span>
 			
-			<br>Selected: <span id="rk" name="rk" >none</span>
+			Selected: <span id="rk" name="rk" >none</span>
 			<br>
 			<input type="button" name="leftkey" id="leftkey" value="choose left key" onclick="leftButtonclick()"/>
-			<span id="errorL" style="display: none;">red! all keys should be different</span>
-			<br>
+			<span class="error" id="errorL" style="display: none;">red! all keys should be different</span>
+			
 			Selected: <span id="lk">none</span>
 			<br>
 			<input type="button" name="upkey" id="upkey" value="choose up key" onclick="upButtonclick()"/>
-			<span id="errorU" style="display: none;">red! all keys should be different</span>
-			<br>
+			<span class="error" id="errorU" style="display: none;">red! all keys should be different</span>
+			
 			Selected: <span id="uk">none</span>
 			<br>
 			<input type="button" name="downkey" id="downkey" value="choose down key" onclick="downButtonclick()"/>
-			<span id="errorD" style="display: none;">red! all keys should be different</span>
-			<br>
+			<span class="error" id="errorD" style="display: none;">red! all keys should be different</span>
+			
 			Selected: <span id="dk">none</span>
-			<br>
-			<br>
-			<br>
-
-			<label for="numofBalls">Choose Number of Balls</label>
+	
+				</div>
+			
+				<div id="otherSettings">
+					<label for="numofBalls">Choose Number of Balls</label>
 				<input type="number" name="numofBalls" id="numofBalls" value="50">
 				<br><br>
 				<label for="gamelength">Game length in Seconds<label>
@@ -261,8 +262,7 @@
 				<p>great!! lets start playing</p>
 				<input type="button" name="gotogame" id="gotogame" value="Lets Start!" onclick="StartGame()"/>
 			</div>
-		
-	 
+				</div>
 		</div>
 		<div id="AboutPage" class="modal">
 			<p>Bla bla bla</p>

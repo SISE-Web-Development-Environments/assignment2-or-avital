@@ -400,3 +400,53 @@ text-align:center;
   #newGamebtn{
 	display: center;
   }
+
+  #Settings{
+	  color: white;
+		text-align:center;
+		  position: absolute;
+		  top: 52%;
+		  left: 50%;
+		  -ms-transform: translateX(-50%) translateY(-50%);
+		  -webkit-transform: translate(-50%,-50%);
+		  transform: translate(-50%,-50%);
+		  border: 5px white solid;
+		
+  }
+
+  #setting-form{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr); /* or simply "1fr 1fr;" */
+	grid-column-gap: 10px;
+	width: 900px;
+	color: #76cbda;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 20px;
+
+  }
+
+  #Settings h1{
+	font-size: 35px;
+	text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+	color:#fcc73f;
+	font-family: Permanent Marker, sans-serif;
+	text-decoration: none;
+	font-style: normal; font-variant: normal; 
+	font-weight: 700; 
+	padding: 0px;
+  }
+
+  #setting-form span{
+	  display:inline;
+  }
+
+  #controlls{
+	border: 5px greenyellow solid;
+		
+  }
+
+  #Settings .error{
+	color: red;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 10px;
+  }
