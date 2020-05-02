@@ -3,9 +3,22 @@
     background: #1abc9c;
     color: white;
 	font-size: 30px;
-	height: 50px;
+	height: 30px;
 }
 
+#header{
+    background: #0e1113;
+}
+
+#names, #logoHeader{
+	display: inline;
+	padding-left: 30px ;
+}
+
+#names{
+	color: rgb(204, 209, 216);
+	font-family: Permanent Marker, sans-serif;
+}
 
 nav{
 	float: center;
@@ -21,29 +34,25 @@ nav li{
 	display: inline-block;
 	margin-left: 20px;
 	margin-right: 20px;
-	padding-top: 5px;
+	
 }
 
 nav a{
 	color: rgb(204, 209, 216);
-	font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	font-family: Permanent Marker, sans-serif;
 	text-decoration: none;
+	font-style: normal; font-variant: normal; 
+	font-weight: 700; 
 	font-size: 18px;
 }
+
 
 nav a:hover{
 	color: #1d2629;
 }
 
-#gameLine
-{
-    text-align:left;
-}
-#score, #time, #usernameTitle, #lives
-{
-	display:inline;
-	padding: 5px;
-}
+
+
 
 #footer {
 	position: fixed;
@@ -72,12 +81,16 @@ nav a:hover{
 
   #gameBoard{
 	display: grid;
-	grid-template-columns: repeat(2, 1fr); /* or simply "1fr 1fr;" */
-	grid-column-gap: 10px;
+	grid-template-columns: repeat(3, 1fr); /* or simply "1fr 1fr;" */
+	grid-column-gap: 30px;
   }
 
-  #game,#settingsInGame{
+  #game,#settingsInGame,#gameLine{
 	text-align: center;
+  }
+
+  #game{
+	  padding-left: 30px;
   }
 
   #settingsInGame{
@@ -85,6 +98,10 @@ nav a:hover{
 	font-size: 18px;
   }
 
+	#gameLine
+	{
+		text-align:left;
+	}
   .dot {
 	height: 20px;
 	width: 20px;

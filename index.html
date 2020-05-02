@@ -11,9 +11,14 @@
 		<script type="text/javascript" src="./switchpages.js"></script>
 		<script type="text/javascript" src="./settings.js"></script>
 		<link rel="stylesheet" type="text/css" href="./style.css">
+		<link href='https://fonts.googleapis.com/css?family=Permanent+Marker:400' rel='stylesheet' type='text/css'>
 	</head>
 
 	<body>
+		<header id="header">
+			<img id="logoHeader" class="logo" src="pacman header.png" width="300px" height="60px">
+			<a id="names">Revi & Or the Queens</a>
+		</header>
 		<header>
 			<div id="menu">
 			  <nav>
@@ -268,7 +273,13 @@
 		</div>
 
 		<div id="gamePage" style="display: none;" >
-			<div id="gameLine">
+
+			<div id="gameBoard">
+				<div id="game">
+				<canvas id="canvas" height="480" width="480"></canvas>
+				</div>
+				
+				<div id="gameLine">
 				<div id="score">
 				<label for="lblScore">SCORE:</label>
 				<input id="lblScore" type="text" />
@@ -289,13 +300,7 @@
 				<label for="usernameLabel">USER NAME:</label>
 				<label id="usernameLabel"></label>
 				</div>
-				
-			
 			</div>
-			<div id="gameBoard">
-				<div id="game">
-				<canvas id="canvas" height="480" width="480"></canvas>
-				</div>
 				<div id="settingsInGame">
 					<br>
 					<br>
@@ -325,6 +330,8 @@
 						<input type="button" name="newGame" id="newGame" value="New Game" onclick="StartNewGame()"/>
 					</div>
 				</div>
+			
+			
 			</div>
 		
 		<div id="ghostImage"> 
