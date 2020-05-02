@@ -203,24 +203,24 @@
 			<h1>Game Settings</h1>
 			<form id="setting-form"  name="registration">
 				<div id="controlls">
-					<h2>Key controll settings</h2>
-			<input type="button" name="rightkey" id="rightkey" value="choose right key" onclick="rightButtonclick()"/>
-			<span class="error" id="errorR" style="display: none;">red! all keys should be different</span>
+					<h2>Choose Key controls</h2>
+			<input class="cntrlButton" type="button" name="rightkey" id="rightkey" value="choose right key" onclick="rightButtonclick()"/>
+			<span class="error" id="errorR" style="display: none;"> all keys should be different</span>
 			
 			Selected: <span id="rk" name="rk" >none</span>
 			<br>
-			<input type="button" name="leftkey" id="leftkey" value="choose left key" onclick="leftButtonclick()"/>
-			<span class="error" id="errorL" style="display: none;">red! all keys should be different</span>
+			<input class="cntrlButton" type="button" name="leftkey" id="leftkey" value="choose left key" onclick="leftButtonclick()"/>
+			<span class="error" id="errorL" style="display: none;"> all keys should be different</span>
 			
 			Selected: <span id="lk">none</span>
 			<br>
-			<input type="button" name="upkey" id="upkey" value="choose up key" onclick="upButtonclick()"/>
-			<span class="error" id="errorU" style="display: none;">red! all keys should be different</span>
+			<input class="cntrlButton" type="button" name="upkey" id="upkey" value="choose up key" onclick="upButtonclick()"/>
+			<span class="error" id="errorU" style="display: none;"> all keys should be different</span>
 			
 			Selected: <span id="uk">none</span>
 			<br>
-			<input type="button" name="downkey" id="downkey" value="choose down key" onclick="downButtonclick()"/>
-			<span class="error" id="errorD" style="display: none;">red! all keys should be different</span>
+			<input class="cntrlButton" type="button" name="downkey" id="downkey" value="choose down key" onclick="downButtonclick()"/>
+			<span class="error" id="errorD" style="display: none;"> all keys should be different</span>
 			
 			Selected: <span id="dk">none</span>
 	
@@ -229,7 +229,7 @@
 				<div id="otherSettings">
 					<label for="numofBalls">Choose Number of Balls</label>
 				<input type="number" name="numofBalls" id="numofBalls" value="50">
-				<br><br>
+			<br>
 				<label for="gamelength">Game length in Seconds<label>
 				<input type="number" name="gamelength" id="gamelength" value="60">
 				<br>
@@ -244,16 +244,18 @@
 				<br>
 				<p> Choose ball colors</p>
 				<input type="color" id="5point" name="5point" value="#FFFF00">
-				<label for="5point">5 point balls</label>
+				<label for="5point">5 point</label>
 				
 				<input type="color" id="10point" name="10point" value="#FF0000">
-				<label for="10point">10 point balls</label>
+				<label for="10point">15 point</label>
 				
 				<input type="color" id="15point" name="15point" value="#0000FF">
-				<label for="15point">15 point balls</label>
+				<label for="15point">25 point</label>
 				
-				<input type="button" name="randomSettings" id="randomSettings" value="Random Settings" onclick="differentName()"/>
-				<input type="submit" name="submitSettings" id="submitSettings" value="Submit" />
+				<br>
+				<br>
+				<input class="buttonSet" type="button" name="randomSettings" id="randomSettings" value="Random" onclick="differentName()"/>
+				<input class="buttonSet" type="submit" name="submitSettings" id="submitSettings" value="Submit" />
 			</form>
 			<div id="errorSettings" class="modal">
 				<p>error!!!</p>
@@ -373,7 +375,8 @@
 		<footer>
 			<div id="footer">
 			<div id="built">
-				<p>Built By: Avital & Or</p>
+				<p>Built with HTML5.</p>
+				<p>Contact Us: oralfasi09@gmail.com or avitalze57@gmail.com</p>
 			</div>
 			</div>
 		</footer>

@@ -8,8 +8,13 @@
 
 body{
 	background: #0e1113;
+<<<<<<< HEAD
 	margin: 0;
 	padding: 0;
+=======
+	margin:0;
+  	padding:0;
+>>>>>>> b6d4dfdaee23394ac6c05989eecc171279b6e98b
 }
 
 #header{
@@ -64,7 +69,19 @@ nav a:hover{
     left: 0;
     right: 0;
     height:35px;
-    background:#ccc;
+	background:#ccc;
+	text-align: center;
+	font-family: Permanent Marker, sans-serif;
+	text-decoration: none;
+	font-style: normal; font-variant: normal; 
+	font-weight: 700; 
+	font-size: 14px;
+  }
+
+  #footer p{
+	  padding-top: 2px;
+	  padding-left: 30px;
+	  display: inline;
   }
 
   #built
@@ -78,6 +95,10 @@ nav a:hover{
 	  
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b6d4dfdaee23394ac6c05989eecc171279b6e98b
 
   #gameBoard{
 	display: grid;
@@ -237,13 +258,9 @@ nav a:hover{
 
   #SignInPage{
 	color: white;
-	text-align:center;
-  position: absolute;
-  top: 52%;
-  left: 50%;
-  -ms-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
+	text-align:left;
+	  left: 50%;
+	  padding-left: 100px;
   }
 
   #SignInPage h1{
@@ -254,12 +271,12 @@ nav a:hover{
 	text-decoration: none;
 	font-style: normal; font-variant: normal; 
 	font-weight: 700; 
-	padding: 0px;
+	padding-left: 30px;
   }
 
   #signin-form{
 	text-align:left;
-	border: 5px white solid;
+	left: 50%;
 	width:600px ;
 	height: 370px;
 	padding-left: 30px;
@@ -318,7 +335,7 @@ nav a:hover{
 }
 
 #signin-form button:hover{
-	background-color:#fcc73f;;
+	background-color:#fcc73f;
 }
 
 
@@ -400,15 +417,10 @@ text-align:center;
   }
 
   #Settings{
-	  color: white;
-		text-align:center;
-		  position: absolute;
-		  top: 52%;
-		  left: 50%;
-		  -ms-transform: translateX(-50%) translateY(-50%);
-		  -webkit-transform: translate(-50%,-50%);
-		  transform: translate(-50%,-50%);
-		  border: 5px white solid;
+	color: white;
+	text-align:center;
+	left: 50%;
+	padding-left: 150px;
 		
   }
 
@@ -417,8 +429,8 @@ text-align:center;
 	grid-template-columns: repeat(2, 1fr); /* or simply "1fr 1fr;" */
 	grid-column-gap: 10px;
 	width: 900px;
-	color: #76cbda;
-	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	color: #40bb77;
+	font-family: Permanent Marker, sans-serif;
 	font-size: 20px;
 
   }
@@ -431,23 +443,66 @@ text-align:center;
 	text-decoration: none;
 	font-style: normal; font-variant: normal; 
 	font-weight: 700; 
+	padding-right: 50px;
+  }
+  #Settings h2, #otherSettings p{
+	font-size: 25px;
+	text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+	color:#40bb77;
+	font-family: Permanent Marker, sans-serif;
+	text-decoration: none;
+	font-style: normal; font-variant: normal; 
+	font-weight: 700; 
 	padding: 0px;
   }
 
   #setting-form span{
 	  display:inline;
+	  color: white;
   }
 
-  #controlls{
-	border: 5px greenyellow solid;
-		
+  #otherSettings input{
+	background: transparent;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 16px;
+	color: white;
+	width: 100%;
+	margin: 3px;
+  	padding: 5px 10px;
+	 box-sizing: border-box;
+	 width: 100px;
+
   }
 
+<<<<<<< HEAD
+=======
+  #otherSettings input[type="color"]{
+  	padding: 5px 10px;
+	 box-sizing: border-box;
+	 width: 100px;
+
+  }
+>>>>>>> b6d4dfdaee23394ac6c05989eecc171279b6e98b
   #Settings .error{
 	color: red;
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-	font-size: 10px;
+	font-size: 16px;
   }
+
+  #setting-form .cntrlButton{
+	background-color:#0e1113;
+	border: 1px white solid;
+	padding: 10px 24px;
+	border-radius: 8px;
+	text-decoration: none;
+	margin: 2px 2px;
+	cursor: pointer;
+	display: center;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 20px;
+	color: white;
+  }
+<<<<<<< HEAD
   
   #AboutPage{
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -465,6 +520,46 @@ text-align:center;
 	
   }
 
+=======
+
+
+  #setting-form .buttonSet{
+	background-color:#0e1113;
+	border: 1px white solid;
+	padding: 0px;
+	border-radius: 8px;
+	text-decoration: none;
+	margin: 2px 2px;
+	cursor: pointer;
+	display: center;
+	font-family: Permanent Marker, sans-serif;
+	font-size: 20px;
+	color: white;
+  }
+
+  #setting-form .buttonSet:hover{
+	background-color:#fcc73f;
+	color: black;
+  }
+  #setting-form select{
+	background: transparent;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 16px;
+	color: #40bb77;
+	width: 100%;
+	margin: 3px;
+  	padding: 5px 10px;
+	 box-sizing: border-box;
+	 width: 200px;
+
+  }
+
+  #setting-form .error { 
+	color: #df5948;
+	font-size: 16px;
+}
+
+>>>>>>> b6d4dfdaee23394ac6c05989eecc171279b6e98b
   .welcomeButton {
 	background-color: rgb(245, 4, 4);
 	border: 10px white;

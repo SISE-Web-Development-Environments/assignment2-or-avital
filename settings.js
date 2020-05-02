@@ -10,7 +10,8 @@ var downDirection;
 function rightButtonclick(){
     document.getElementById("rk").innerHTML = "none";
     document.getElementById("errorR").style.display="none";
-    document.getElementById("rightkey").style.background="yellow";
+    document.getElementById("rightkey").style.background="#40bb77";
+    document.getElementById("rightkey").style.color="black";
 	document.addEventListener("keydown", rightKeyChoosen);
  }
 
@@ -25,13 +26,15 @@ function rightKeyChoosen(e) {
   }
   document.removeEventListener("keydown", rightKeyChoosen);
   document.getElementById("rightkey").style.background="none";
+  document.getElementById("rightkey").style.color="white";
 }
 
 //LEFT
 function leftButtonclick(){
     document.getElementById("lk").innerHTML = "none";
     document.getElementById("errorL").style.display="none";
-    document.getElementById("leftkey").style.background="yellow";
+    document.getElementById("leftkey").style.background="#40bb77";
+    document.getElementById("leftkey").style.color="black";
 	document.addEventListener("keydown", leftKeyChoosen);
  }
 
@@ -46,13 +49,15 @@ function leftKeyChoosen(e) {
   }
   document.removeEventListener("keydown", leftKeyChoosen);
   document.getElementById("leftkey").style.background="none";
+  document.getElementById("leftkey").style.color="white";
 }
 
 //UP
 function upButtonclick(){
     document.getElementById("uk").innerHTML = "none";
     document.getElementById("errorU").style.display="none";
-    document.getElementById("upkey").style.background="yellow";
+    document.getElementById("upkey").style.background="#40bb77";
+    document.getElementById("upkey").style.background="black";
 	document.addEventListener("keydown", upKeyChoosen);
  }
 
@@ -66,13 +71,15 @@ function upKeyChoosen(e) {
   }
   document.removeEventListener("keydown", upKeyChoosen);
   document.getElementById("upkey").style.background="none";
+  document.getElementById("upkey").style.color="white";
 }
 
 //DOWN
 function downButtonclick(){
     document.getElementById("dk").innerHTML = "none";
     document.getElementById("errorD").style.display="none";
-    document.getElementById("downkey").style.background="yellow";
+    document.getElementById("downkey").style.background="#40bb77";
+    document.getElementById("downkey").style.color="black";
 	document.addEventListener("keydown", downKeyChoosen);
  }
 
@@ -87,6 +94,7 @@ function downKeyChoosen(e) {
   }
   document.removeEventListener("keydown", downKeyChoosen);
   document.getElementById("downkey").style.background="none";
+  document.getElementById("downkey").style.color="white";
 }
 
 function differentName(){
