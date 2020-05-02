@@ -17,7 +17,7 @@
 	<body>
 		<header id="header">
 			<img id="logoHeader" class="logo" src="pacman header.png" width="300px" height="60px">
-			<a id="names">Revi & Or the Queens</a>
+			<a id="names">By :   Avital Zehavi & Or Alfasi</a>
 		</header>
 		<header>
 			<div id="menu">
@@ -41,17 +41,17 @@
 			<!-- <input id="GameButton" type="button" class="welcomeButton" value="go to game" onclick="gotogame()"/> -->
 		</div>
 		<div id="SignInPage" style="display: none;" >
-			<h1>Sign In Page</h1>
+			<h1>Sign In</h1>
 			<form id="signin-form" action="" name="registration">
 
 				<label for="firstname">First Name</label>
-				<input type="text" name="firstname" id="firstname" />
+				<input type="text" name="firstname" id="firstname" autocomplete="off"/>
 				<br>
 				<label for="lastname">Last Name</label>
-				<input type="text" name="lastname" id="lastname" />
+				<input type="text" name="lastname" id="lastname"  autocomplete="off" />
 				<br>
 				<label for="email">Email</label>
-				<input type="email" name="email" id="email" />
+				<input type="email" name="email" id="email" autocomplete="off" />
 				<br>
 				<label for="birthday">Birth Date</label>
 
@@ -162,11 +162,11 @@
 				</select>
 				<br>
 				<label for="username">UserName</label>
-				<input type="username" name="username" id="username"/>
+				<input type="username" name="username" id="username" autocomplete="off"/>
 				<br>
 				<label for="password">Password</label>
-				<input type="password" name="password" id="password"/>
-				<br>
+				<input type="password" name="password" id="password" autocomplete="off"/>
+		
 				<button type="submit">Register</button>
 			
 			  </form>
@@ -180,17 +180,14 @@
 		</div>
 
 		<div id="LogInPage" style="display: none;" >
-			<h1>log in page</h1>
-			<input id="tosettings" type="button" value="temp button to settings" onclick="clickToSettings()"/>
+			<h1>log in</h1>
 
-			<br>
-			<br>
 			<label for="usernameLogIn">UserName</label>
 			<input type="username" name="usernameLogIn" id="usernameLogIn"/>
 			<br>
 			<label for="passwordLogIn">Password</label>
 			<input type="password" name="passwordLogIn" id="passwordLogIn"/>
-
+			<br>
 			<input id="loginButton" type="button" value="Log In" onclick="checkUser()"/>
 		
 			<div id="logInOK" class="modal">
@@ -205,31 +202,32 @@
 		<div id="Settings" style="display: none;" >
 			<h1>Game Settings</h1>
 			<form id="setting-form"  name="registration">
-			<h2>Key controll settings</h2>
+				<div id="controlls">
+					<h2>Key controll settings</h2>
 			<input type="button" name="rightkey" id="rightkey" value="choose right key" onclick="rightButtonclick()"/>
-			<span id="errorR" style="display: none;">red! all keys should be different</span>
+			<span class="error" id="errorR" style="display: none;">red! all keys should be different</span>
 			
-			<br>Selected: <span id="rk" name="rk" >none</span>
+			Selected: <span id="rk" name="rk" >none</span>
 			<br>
 			<input type="button" name="leftkey" id="leftkey" value="choose left key" onclick="leftButtonclick()"/>
-			<span id="errorL" style="display: none;">red! all keys should be different</span>
-			<br>
+			<span class="error" id="errorL" style="display: none;">red! all keys should be different</span>
+			
 			Selected: <span id="lk">none</span>
 			<br>
 			<input type="button" name="upkey" id="upkey" value="choose up key" onclick="upButtonclick()"/>
-			<span id="errorU" style="display: none;">red! all keys should be different</span>
-			<br>
+			<span class="error" id="errorU" style="display: none;">red! all keys should be different</span>
+			
 			Selected: <span id="uk">none</span>
 			<br>
 			<input type="button" name="downkey" id="downkey" value="choose down key" onclick="downButtonclick()"/>
-			<span id="errorD" style="display: none;">red! all keys should be different</span>
-			<br>
+			<span class="error" id="errorD" style="display: none;">red! all keys should be different</span>
+			
 			Selected: <span id="dk">none</span>
-			<br>
-			<br>
-			<br>
-
-			<label for="numofBalls">Choose Number of Balls</label>
+	
+				</div>
+			
+				<div id="otherSettings">
+					<label for="numofBalls">Choose Number of Balls</label>
 				<input type="number" name="numofBalls" id="numofBalls" value="50">
 				<br><br>
 				<label for="gamelength">Game length in Seconds<label>
@@ -265,8 +263,7 @@
 				<p>great!! lets start playing</p>
 				<input type="button" name="gotogame" id="gotogame" value="Lets Start!" onclick="StartGame()"/>
 			</div>
-		
-	 
+				</div>
 		</div>
 		<div id="AboutPage" class="modal">
 			<p>Bla bla bla</p>
@@ -298,13 +295,19 @@
 					<a id="life5">&#128153;</a>
 					</div>
 				<div id="usernameTitle">
-				<label for="usernameLabel">USER NAME:</label>
+				<label id="usernameOnScreen" for="usernameLabel">USER NAME:</label>
 				<label id="usernameLabel"></label>
+				</div>
+				<div id="newGamebtn">
+					<input type="button" name="startnewGame" id="startnewGame" value="Start New Game" onclick="openNewGameModal()"/>
+				</div>
+				<div id="newGame" class="modal">
+					<p>Let's Start Playing!</p>
+					<input type="button" name="newGame" id="newGame" value="New Game" onclick="StartNewGame()"/>
 				</div>
 			</div>
 				<div id="settingsInGame">
-					<br>
-					<br>
+					<h1>Game Settings</h1>
 					Right Key: <span id="rcontrol" name="rk" ></span>
 					<br>
 					Left Key: <span id="lcontrol"></span>
@@ -325,18 +328,13 @@
 					<br>
 					25 Point Color : <span class="dot" id="25colorCircle"></span>
 					<br><br>
-					<input type="button" name="startnewGame" id="startnewGame" value="Start New Game" onclick="openNewGameModal()"/>
-					<div id="newGame" class="modal">
-						<p>Let's Start Playing!</p>
-						<input type="button" name="newGame" id="newGame" value="New Game" onclick="StartNewGame()"/>
-					</div>
 				</div>
 			
 			
 			</div>
 		
 		<div id="ghostImage"> 
-			<img id="ghost" width="220" height="277" src="ghost1.PNG" alt="The ghost pacman" style="display: none;">
+			<img id="ghost" width="220" height="277" src="ghost1-nobackround.png" alt="The ghost pacman" style="display: none;">
 		 </div>
 		 <div id="appleImg"> 
 			<img id="apple" width="220" height="277" src="apple.png" alt="apple 50" style="display: none;">
@@ -345,7 +343,7 @@
 			<img id="pill" width="220" height="277" src="pillLife.png" alt="pill life" style="display: none;">
 		 </div>
 		 <div id="clockImg"> 
-			<img id="clock" width="220" height="277" src="clock.png" alt="clock pill" style="display: none;">
+			<img id="clock" width="220" height="277" src="clock-noback.png" alt="clock pill" style="display: none;">
 		 </div>
 		<div id="x"> 
 		</div>
