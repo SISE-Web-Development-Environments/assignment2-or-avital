@@ -359,7 +359,7 @@ function bestMoveOfGhost(){
 
 		
 		 // down
-		if (ghostArray[q].y < maxLenBoard && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 && board[ghostArray[q].x][ghostArray[q].y + 1] != 50 &&board[ghostArray[q].x][ghostArray[q].y + 1] != 60 ) { 
+		if (ghostArray[q].y < maxLenBoard && board[ghostArray[q].x][ghostArray[q].y + 1] != 4 && board[ghostArray[q].x][ghostArray[q].y + 1] != 50 &&board[ghostArray[q].x][ghostArray[q].y + 1] != 60 && board[ghostArray[q].x][ghostArray[q].y + 1] != 7 ) { 
 				var rightYCalc=Math.abs(shape.j-(ghostArray[q].y+1));	
 				var down= Xsub+rightYCalc;
 				if(down<minDistance && ghostArray[q].lastMove!=7 ){
@@ -371,7 +371,7 @@ function bestMoveOfGhost(){
 			
 			}
 		// up
-		if(ghostArray[q].y > 0 && board[ghostArray[q].x][ghostArray[q].y - 1] != 4 && board[ghostArray[q].x][ghostArray[q].y - 1] != 50 && board[ghostArray[q].x][ghostArray[q].y - 1] != 60 ){
+		if(ghostArray[q].y > 0 && board[ghostArray[q].x][ghostArray[q].y - 1] != 4 && board[ghostArray[q].x][ghostArray[q].y - 1] != 50 && board[ghostArray[q].x][ghostArray[q].y - 1] != 60 && board[ghostArray[q].x][ghostArray[q].y - 1] != 7 ){
 			var leftYCalc=Math.abs(shape.j-(ghostArray[q].y-1));
 			var up=Xsub+leftYCalc;
 			if(up<minDistance&& ghostArray[q].lastMove!=6){
@@ -382,7 +382,7 @@ function bestMoveOfGhost(){
 			}	
 		} 
 		// left  
-		if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4 && board[ghostArray[q].x - 1][ghostArray[q].y] != 50 && board[ghostArray[q].x - 1][ghostArray[q].y] != 60){
+		if(ghostArray[q].x > 0 && board[ghostArray[q].x - 1][ghostArray[q].y] != 4 && board[ghostArray[q].x - 1][ghostArray[q].y] != 50 && board[ghostArray[q].x - 1][ghostArray[q].y] != 60 && board[ghostArray[q].x - 1][ghostArray[q].y] != 7){
 			var upXCalc=Math.abs(shape.i-(ghostArray[q].x-1));
 			var left=Ysub+upXCalc;
 			if(left<minDistance && ghostArray[q].lastMove!=9){
@@ -393,7 +393,7 @@ function bestMoveOfGhost(){
 			}
 		}
 		// right ? 
-		if(ghostArray[q].x < maxLenBoard && board[ghostArray[q].x + 1][ghostArray[q].y] != 4 && board[ghostArray[q].x + 1][ghostArray[q].y] != 50 && board[ghostArray[q].x + 1][ghostArray[q].y] != 60){
+		if(ghostArray[q].x < maxLenBoard && board[ghostArray[q].x + 1][ghostArray[q].y] != 4 && board[ghostArray[q].x + 1][ghostArray[q].y] != 50 && board[ghostArray[q].x + 1][ghostArray[q].y] != 60 && board[ghostArray[q].x + 1][ghostArray[q].y] != 7){
 			var downXCala=Math.abs(shape.i-(ghostArray[q].x+1));
 			var right=Ysub+downXCala;
 			if(right<minDistance && ghostArray[q].lastMove!=8){
