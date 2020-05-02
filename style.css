@@ -7,9 +7,9 @@
 }
 
 body{
-	background: #0e1113;
-	margin: 0;
-	padding: 0;
+	background: #130e11;
+	margin:0;
+  	padding:0;
 }
 
 #header{
@@ -64,7 +64,19 @@ nav a:hover{
     left: 0;
     right: 0;
     height:35px;
-    background:#ccc;
+	background:#d69f37;
+	text-align: center;
+	font-family: Permanent Marker, sans-serif;
+	text-decoration: none;
+	font-style: normal; font-variant: normal; 
+	font-weight: 700; 
+	font-size: 14px;
+  }
+
+  #footer p{
+	  padding-top: 2px;
+	  padding-left: 30px;
+	  display: inline;
   }
 
   #built
@@ -305,7 +317,7 @@ nav a:hover{
 
 #signin-form button{
 	background-color:#0e1113;
-	border: none;
+	border: 2px white solid;
 	color: white;
 	padding: 10px 24px;
 	border-radius: 8px;
@@ -365,7 +377,7 @@ text-align:center;
 
   #loginButton{
 	background-color:#0e1113;
-	border: none;
+	border: 2px white solid;
 	color: white;
 	padding: 10px 24px;
 	border-radius: 8px;
@@ -448,6 +460,20 @@ text-align:center;
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 	font-size: 10px;
   }
+
+  #setting-form .cntrlButton{
+	background-color:#0e1113;
+	border: 1px white solid;
+	padding: 10px 24px;
+	border-radius: 8px;
+	text-decoration: none;
+	margin: 2px 2px;
+	cursor: pointer;
+	display: center;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 20px;
+	color: white;
+  }
   
   #AboutPage{
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -464,6 +490,44 @@ text-align:center;
 
 	
   }
+
+
+
+  #setting-form .buttonSet{
+	background-color:#0e1113;
+	border: 1px white solid;
+	padding: 0px;
+	border-radius: 8px;
+	text-decoration: none;
+	margin: 2px 2px;
+	cursor: pointer;
+	display: center;
+	font-family: Permanent Marker, sans-serif;
+	font-size: 20px;
+	color: white;
+  }
+
+  #setting-form .buttonSet:hover{
+	background-color:#fcc73f;
+	color: black;
+  }
+  #setting-form select{
+	background: transparent;
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 16px;
+	color: #40bb77;
+	width: 100%;
+	margin: 3px;
+  	padding: 5px 10px;
+	 box-sizing: border-box;
+	 width: 200px;
+
+  }
+
+  #setting-form .error { 
+	color: #df5948;
+	font-size: 16px;
+}
 
   .welcomeButton {
 	background-color: rgb(245, 4, 4);

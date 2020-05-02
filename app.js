@@ -622,7 +622,7 @@ function UpdatePosition() {
 	
 	
 	if (score >= 50 && time_elapsed <= 10) { //??? green yamii
-		pac_color = "#00FF00";
+		pac_color = "#d472b4";
 	}
 
 	if(magicDrawerCount % 3 == 0 && time_elapsed>=3 && firstGame==true){ //#################
