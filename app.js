@@ -161,9 +161,9 @@ function Start() { // setup -first drow
 	}
 	//delete the threes
 	board[0][0]=0;
-	board[0][maxLen]=0;
-	board[maxLen][0]=0;
-	board[maxLen][maxLen]=0;
+	board[0][11]=0;
+	board[11][0]=0;
+	board[11][11]=0;
 	putGhostsOnBord(); //paint ghosts
 	
 	//magic 50
