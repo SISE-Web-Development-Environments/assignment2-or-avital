@@ -8,6 +8,8 @@
 
 body{
 	background: #0e1113;
+	margin: 0;
+	padding: 0;
 }
 
 #header{
@@ -76,12 +78,6 @@ nav a:hover{
 	  
   }
 
-  body{
-	margin:0;
-	padding:0;
-	width: 100%; /* full window width */
-    text-align: center;
-  }
 
   #gameBoard{
 	display: grid;
@@ -447,31 +443,51 @@ text-align:center;
 		
   }
 
-<<<<<<< HEAD
   #Settings .error{
 	color: red;
 	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 	font-size: 10px;
   }
-=======
+  
+  #AboutPage{
+	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 14;
+	text-align:left;
+  }
+
+  .wrapperButtons{
+	text-align: center;
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 65%;
+
+	
+  }
+
   .welcomeButton {
-	background-color: rgb(243, 158, 1);
-	border: white;
-	border-radius: 12px;
+	background-color: rgb(245, 4, 4);
+	border: 10px white;
+	
 	color: rgb(255, 255, 255);
-	padding: 20px 42px;
+	padding: 30px 10px;
 	text-align: center;
 	text-decoration: white;
 	display: inline-block;
 	font-size: 20px;
-	margin: 4px 2px;
+	
 	cursor: pointer;
 	font-family: Permanent Marker, sans-serif;
-	width: 50%;
+	width: 130px;
+	cursor: pointer;
+	border-radius: 50%;
+	margin-right: 20px;
+	
+	/* margin: 4px 2px; */
   }
 
   .welcomeButton:hover {
-	background-color: rgb(255, 251, 0);
+	background-color:#76cbda;
 	color: black;
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
   }
@@ -483,12 +499,28 @@ text-align:center;
       background-position: center;
       background-repeat: no-repeat;
 	  background-size: initial;   */
-	  border: 10px red;
 	  width: 100%;
 	  height: 100vh;
-	  background-image: url('back.jpg');
+	  background-image: url('back3.PNG');
 	  float:right;
-  	  width: 100%;
+	background-size: cover;
+	background-size: 100% 150%;
+		
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+		/* background-image: url(back.PNG);
+	
+	
+	height: 100%;
+   
+	font-family:Arial, Helvetica, sans-serif; 
+	background-position: center;
+	
+	background-attachment: fixed; */
+
+
+		
 	  }
   
->>>>>>> 37bddc78b0ac18a90e8aa22ef015819bf7a090e5
