@@ -64,7 +64,19 @@ nav a:hover{
     left: 0;
     right: 0;
     height:35px;
-    background:#ccc;
+	background:#ccc;
+	text-align: center;
+	font-family: Permanent Marker, sans-serif;
+	text-decoration: none;
+	font-style: normal; font-variant: normal; 
+	font-weight: 700; 
+	font-size: 14px;
+  }
+
+  #footer p{
+	  padding-top: 2px;
+	  padding-left: 30px;
+	  display: inline;
   }
 
   #built
