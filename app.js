@@ -154,8 +154,11 @@ function Start() { // setup -first drow
 		board[emptyCell[0]][emptyCell[1]] = 2; //pacman
 		pacman_remain--;
 	}
-	
-	
+	//delete the threes
+	board[0][0]=0;
+	board[0][maxLen]=0;
+	board[maxLen][0]=0;
+	board[maxLen][maxLen]=0;
 	putGhostsOnBord(); //paint ghosts
 	
 	//magic 50
