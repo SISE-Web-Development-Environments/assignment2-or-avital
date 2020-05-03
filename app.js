@@ -71,6 +71,7 @@ var pill1;
 function Start() { // setup -first drow 
 	magic50=new Object();
 	pill1=new Object();
+	clockPill=new Object();
 	if(startgame){
 		board = [
 			[3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
