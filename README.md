@@ -6,7 +6,7 @@
 • Avital Zehavi - 312271554
 
 -Add functionality: 
-• Adding "medicines" pill that if the Pacman eats he gets more points. The pill appear and disappear for short periods of time.
+• Adding "medicines" pill that if the Pacman eats it 1 more life is added (max of 5 lives). The pill appear and disappear for short periods of time.
 • Add a clock pill that increases game time.
 • The Pacman changes its color to pink if it will eat more than 50 points in 10 seconds.
 
